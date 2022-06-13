@@ -1,15 +1,14 @@
 import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Container, Heading } from "@chakra-ui/react";
+import HomeScreen from "./screens/HomeScreen";
+import { Container } from "@chakra-ui/react";
 const App = () => {
   return (
     <>
       <Header />
-      <Container as="main" py={3}>
-        <Container>
-          <Heading as="h1">Welcome To Proshop</Heading>
-        </Container>
+      <Container maxW="70vw" as="main" py={3}>
+        <HomeScreen />
       </Container>
       <Footer />
     </>

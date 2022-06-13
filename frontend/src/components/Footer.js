@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <Container as="footer" role="contentinfo" centerContent>
+    <Container as="footer" role="contentinfo" mt={5} centerContent>
       <Text>Copyright &copy; Proshop</Text>
     </Container>
   );
