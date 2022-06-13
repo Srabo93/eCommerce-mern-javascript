@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +14,7 @@ const Header = () => {
       <Flex justifyContent="space-between" alignItems="center">
         <Breadcrumb separator="">
           <BreadcrumbItem fontWeight="semibold" fontSize={["lg", "xl", "2xl"]}>
-            <BreadcrumbLink to="#">
+            <BreadcrumbLink as={Link} to="/">
               <Text>PROSHOP</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -21,13 +22,13 @@ const Header = () => {
         <Breadcrumb separator="">
           <BreadcrumbItem>
             <i className="fas fa-shopping-cart"></i>
-            <BreadcrumbLink to="#" fontSize="sm" px={1}>
+            <BreadcrumbLink as={Link} to="/login" fontSize="sm" px={1}>
               <Text>CART</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <i className="fas fa-user"></i>
-            <BreadcrumbLink to="#" fontSize="sm" px={1}>
+            <BreadcrumbLink as={Link} to="/cart" fontSize="sm" px={1}>
               <Text>SIGN IN</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
