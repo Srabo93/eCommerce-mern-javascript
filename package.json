@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "ProShop",
   "main": "server.js",
+  "type":"module",
   "scripts": {
-    "start":"node backend/server",
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +22,11 @@
   },
   "homepage": "https://github.com/Srabo93/ProShop#readme",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.16"
   }
 }
