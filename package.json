@@ -1,0 +1,23 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "ProShop",
+  "main": "server.js",
+  "scripts": {
+    "start":"node backend/server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Srabo93/ProShop.git"
+  },
+  "author": "Armin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Srabo93/ProShop/issues"
+  },
+  "homepage": "https://github.com/Srabo93/ProShop#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
