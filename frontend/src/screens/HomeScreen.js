@@ -1,9 +1,19 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
-import React from "react";
 import Product from "../components/Product";
-import products from "../products";
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    const { data } = await axios.get("/api/products");
+    setProducts(data);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <Heading as="h1">Latest Products</Heading>

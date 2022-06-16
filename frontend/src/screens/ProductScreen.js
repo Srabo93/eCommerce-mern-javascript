@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 import {
   Button,
   Heading,
@@ -14,10 +15,21 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import products from "../products";
+
 const ProductScreen = () => {
+  const [product, setProduct] = useState([]);
+
   let params = useParams();
-  const product = products.find((product) => product._id === params.id);
+
+  const fetchProduct = async () => {
+    const { data } = await axios.get(`/api/products/${params.id}`);
+    setProduct(data);
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
   return (
     <Container maxW="full">
       <Link to="/">
