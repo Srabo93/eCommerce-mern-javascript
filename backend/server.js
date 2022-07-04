@@ -1,18 +1,34 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-//Routes
+/*Routes */
 import productRoutes from "./routes/productRoutes.js";
-//Externals
+/*Middleware */
+import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
+/*Externals */
 import colors from "colors";
 
+/**
+ * Load ENV's
+ */
 dotenv.config();
-
+/**
+ * Connect to Database
+ */
 connectDB();
-
+/**
+ * Initialize Express App
+ */
 const app = express();
-
+/**
+ * Mount Routes
+ */
 app.use("/api/products", productRoutes);
+/**
+ * Custom Error Handler
+ */
+app.use(notFound);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("API is running");
