@@ -7,7 +7,7 @@ import productRoutes from "./routes/productRoutes.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 /*Externals */
 import colors from "colors";
-
+import cors from "cors";
 /**
  * Load ENV's
  */
@@ -20,6 +20,10 @@ connectDB();
  * Initialize Express App
  */
 const app = express();
+/**
+ * App Configuration
+ */
+app.use(cors());
 /**
  * Mount Routes
  */

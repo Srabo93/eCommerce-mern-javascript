@@ -11,7 +11,7 @@ const Product = ({ product }) => {
       overflow="hidden"
       mt={3}
     >
-      <Link to={`/product/${product._id}`}>
+      <Link to={`/products/${product._id}`}>
         <Image src={product.image} alt={product.image} />
       </Link>
       <Box p={["2", "6"]}>

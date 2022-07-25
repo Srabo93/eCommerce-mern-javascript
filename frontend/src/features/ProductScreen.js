@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectProductById } from "../features/productsSlice";
 import {
   Button,
   Heading,
@@ -17,18 +18,9 @@ import {
 import { StarIcon } from "@chakra-ui/icons";
 
 const ProductScreen = () => {
-  const [product, setProduct] = useState([]);
-
   let params = useParams();
 
-  const fetchProduct = async () => {
-    const { data } = await axios.get(`/api/products/${params.id}`);
-    setProduct(data);
-  };
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+  const product = useSelector((state) => selectProductById(state, params.id));
 
   return (
     <Container maxW="full">
