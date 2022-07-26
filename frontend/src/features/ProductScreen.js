@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProductById } from "../features/productsSlice";
+import { addItem } from "./cartSlice";
 import {
   Button,
   Heading,
@@ -22,11 +23,15 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(0);
   let params = useParams();
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+
   const product = useSelector((state) => selectProductById(state, params.id));
 
   const addToCartHandler = () => {
+    dispatch(addItem({ itemId: params.id, qty }));
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
+
   return (
     <Container maxW="full">
       <Link to="/">
