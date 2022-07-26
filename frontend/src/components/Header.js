@@ -22,13 +22,13 @@ const Header = () => {
         <Breadcrumb separator="">
           <BreadcrumbItem>
             <i className="fas fa-shopping-cart"></i>
-            <BreadcrumbLink as={Link} to="/login" fontSize="sm" px={1}>
+            <BreadcrumbLink as={Link} to="/cart" fontSize="sm" px={1}>
               <Text>CART</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <i className="fas fa-user"></i>
-            <BreadcrumbLink as={Link} to="/cart" fontSize="sm" px={1}>
+            <BreadcrumbLink as={Link} to="/login" fontSize="sm" px={1}>
               <Text>SIGN IN</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>

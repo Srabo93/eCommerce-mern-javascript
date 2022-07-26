@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectProductById } from "../features/productsSlice";
 import {
@@ -14,14 +14,19 @@ import {
   Divider,
   Box,
   Container,
+  Select,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
 const ProductScreen = () => {
+  const [qty, setQty] = useState(0);
   let params = useParams();
-
+  let navigate = useNavigate();
   const product = useSelector((state) => selectProductById(state, params.id));
 
+  const addToCartHandler = () => {
+    navigate(`/cart/${params.id}?qty=${qty}`);
+  };
   return (
     <Container maxW="full">
       <Link to="/">
@@ -75,8 +80,25 @@ const ProductScreen = () => {
               {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
             </Text>
           </HStack>
+          {product.countInStock > 0 && (
+            <Select
+              placeholder="Select Quantity"
+              onChange={(e) => setQty(e.target.value)}
+            >
+              {[...Array(product.countInStock).keys()].map((count) => (
+                <option value={count + 1} key={count + 1}>
+                  {count + 1}
+                </option>
+              ))}
+            </Select>
+          )}
           <Divider />
-          <Button w="full" mt={3} disabled={product.countInStock === 0}>
+          <Button
+            w="full"
+            mt={3}
+            disabled={product.countInStock === 0}
+            onClick={addToCartHandler}
+          >
             Add To Cart
           </Button>
         </Box>

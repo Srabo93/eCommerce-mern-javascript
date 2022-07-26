@@ -15,6 +15,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       transformResponse: (responseData) => {
         return productsAdapter.setAll(initialState, responseData);
       },
+      providesTags: (result, error, arg) => [
+        { type: "Product", id: "LIST" },
+        ...result.ids.map((id) => ({ type: "Product", id })),
+      ],
     }),
   }),
 });

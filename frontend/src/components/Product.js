@@ -17,7 +17,7 @@ const Product = ({ product }) => {
       <Box p={["2", "6"]}>
         <Box display="flex" alignItems="center" justifyContent="center">
           <VStack>
-            <Link to={`/product/${product._id}`}>
+            <Link to={`/products/${product._id}`}>
               <Box
                 fontWeight="semibold"
                 as="h4"
