@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { selectAllProducts, useGetProductsQuery } from "./productsSlice";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import Product from "../components/Product";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 const HomeScreen = () => {
   const { isLoading, isSuccess, isError, error } = useGetProductsQuery();
@@ -11,13 +13,13 @@ const HomeScreen = () => {
   let content;
 
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <Loader />;
   } else if (isSuccess) {
     content = products.map((product, i) => (
       <Product key={i} product={product} />
     ));
   } else if (isError) {
-    content = <p>{error}</p>;
+    content = <Message error={error} />;
   }
   return (
     <>
