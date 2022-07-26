@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Image, VStack } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+
 const Product = ({ product }) => {
   return (
     <Box
