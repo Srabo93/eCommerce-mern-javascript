@@ -27,8 +27,8 @@ const ProductScreen = () => {
 
   const product = useSelector((state) => selectProductById(state, params.id));
 
-  const addToCartHandler = () => {
-    dispatch(addItem({ itemId: params.id, qty }));
+  const addToCartHandler = (product) => {
+    dispatch(addItem({ itemId: product._id, product, qty }));
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 
@@ -39,7 +39,7 @@ const ProductScreen = () => {
           Go Back
         </Button>
       </Link>
-      <SimpleGrid mt={5} columns={[1, null, 3]} spacing={[2, 5, 10]}>
+      <SimpleGrid mt={5} columns={{ base: 1, lg: 3 }} spacing={[2, 5, 10]}>
         <Image src={product.image} alt={product.image} />
         <VStack alignItems="flex-start">
           <Heading as="h3" fontSize={["md", "xl", "2xl"]}>
@@ -102,7 +102,7 @@ const ProductScreen = () => {
             w="full"
             mt={3}
             disabled={product.countInStock === 0}
-            onClick={addToCartHandler}
+            onClick={() => addToCartHandler(product)}
           >
             Add To Cart
           </Button>
