@@ -13,8 +13,11 @@ const cartSlice = createSlice({
     addItem(state, action) {
       cartAdapter.addOne(state, action.payload);
     },
-    removeItem(state, { id }) {
-      cartAdapter.remove(state, id);
+    removeItem(state, { payload }) {
+      cartAdapter.removeOne(state, payload);
+    },
+    updateQty(state, { payload }) {
+      cartAdapter.updateOne(state, payload);
     },
   },
 });
@@ -25,6 +28,6 @@ export const {
   selectIds: selectItemIds,
 } = cartAdapter.getSelectors((state) => state.cart);
 
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, updateQty } = cartSlice.actions;
 
 export default cartSlice.reducer;
