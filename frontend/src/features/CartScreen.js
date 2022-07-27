@@ -1,12 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "../features/cartSlice";
-import { Container, Heading, Grid, GridItem } from "@chakra-ui/react";
+import { Container, Heading, Grid, GridItem, Button } from "@chakra-ui/react";
 import Feature from "../components/Feature";
 import CartStats from "../components/CartStats";
+import { useNavigate } from "react-router-dom";
 
 const CartScreen = () => {
   const cartItems = useSelector(selectAllItems);
+
+  const navigate = useNavigate();
+
+  const checkOutHandler = () => {
+    console.log("Checkout");
+    navigate("/login?redirect=shipping");
+  };
   return (
     <Container maxW={["90%", "100%", "90%"]}>
       <Heading as="h1">Shopping Cart</Heading>
@@ -24,6 +32,13 @@ const CartScreen = () => {
           <CartStats cartItems={cartItems} />
         </GridItem>
       </Grid>
+      <Button
+        mt={3}
+        disabled={cartItems.length === 0}
+        onClick={checkOutHandler}
+      >
+        Proceed To Checkout
+      </Button>
     </Container>
   );
 };
