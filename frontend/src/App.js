@@ -11,7 +11,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <Container maxW={["90vw", "100vw", "70vw"]} as="main" py={3}>
+      <Container maxW={["90vw", "100vw", "90vw"]} as="main" py={3}>
         <Routes>
           <Route path="/" element={<HomeScreen />} index />
           <Route path="/products/:id" element={<ProductScreen />} />
