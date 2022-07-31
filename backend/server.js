@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 /*Routes */
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 /*Middleware */
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 /*Externals */
@@ -24,10 +25,12 @@ const app = express();
  * App Configuration
  */
 app.use(cors());
+app.use(express.json());
 /**
  * Mount Routes
  */
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 /**
  * Custom Error Handler
  */
