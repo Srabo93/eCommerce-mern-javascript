@@ -15,6 +15,7 @@ const CartScreen = () => {
     console.log("Checkout");
     navigate("/login?redirect=shipping");
   };
+
   return (
     <Container maxW={["90%", "100%", "90%"]}>
       <Heading as="h1">Shopping Cart</Heading>
