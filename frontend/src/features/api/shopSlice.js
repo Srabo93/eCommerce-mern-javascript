@@ -1,19 +1,26 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
-import { apiSlice } from "./api/apiSlice";
+import { apiSlice } from "./apiSlice";
 
-const productsAdapter = createEntityAdapter({
+const shopAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt),
   selectId: (product) => product._id,
 });
 
-const initialState = productsAdapter.getInitialState();
+const initialState = shopAdapter.getInitialState();
 
-export const extendedApiSlice = apiSlice.injectEndpoints({
+export const shopApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (credentials) => ({
+        url: "/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
     getProducts: builder.query({
       query: () => "/products",
       transformResponse: (responseData) => {
-        return productsAdapter.setAll(initialState, responseData);
+        return shopAdapter.setAll(initialState, responseData);
       },
       providesTags: (result, error, arg) => [
         { type: "Product", id: "LIST" },
@@ -23,10 +30,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery } = extendedApiSlice;
+export const { useGetProductsQuery, useLoginMutation } = shopApi;
 
-export const selectProductsResult =
-  extendedApiSlice.endpoints.getProducts.select();
+export const selectProductsResult = shopApi.endpoints.getProducts.select();
 
 const selectProductsData = createSelector(
   selectProductsResult,
@@ -37,6 +43,10 @@ export const {
   selectAll: selectAllProducts,
   selectById: selectProductById,
   selectIds: selectProductIds,
-} = productsAdapter.getSelectors(
+} = shopAdapter.getSelectors(
   (state) => selectProductsData(state) ?? initialState
 );
+
+export const {
+  endpoints: { login },
+} = shopApi;
