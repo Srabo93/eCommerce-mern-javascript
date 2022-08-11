@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import store from "./store";
 import { Provider } from "react-redux";
 import { shopApi } from "./features/api/shopSlice";
+import { isLoggedIn } from "./features/auth/authSlice";
 /*React Router */
 import { BrowserRouter } from "react-router-dom";
 /*ChakraProvider */
@@ -15,6 +16,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 store.dispatch(shopApi.endpoints.getProducts.initiate());
+store.dispatch(isLoggedIn());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
