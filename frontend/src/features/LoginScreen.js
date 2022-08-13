@@ -89,7 +89,7 @@ const LoginScreen = () => {
           Sign In
         </Button>
       </FormControl>
-      <Text fontWeight="semi-bold">
+      <Text fontWeight="semi-bold" decoration="underline">
         <Link to="/register">New Customer? Register</Link>
       </Text>
     </Box>
