@@ -12,6 +12,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout() {
+      localStorage.removeItem("authorization");
       return initialState;
     },
     isLoggedIn(state) {
@@ -51,6 +52,6 @@ const authSlice = createSlice({
 
 export const { logout, isLoggedIn } = authSlice.actions;
 //this will return false always i guess, for now
-export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectAuthenticatedUser = (state) => state.auth;
 
 export default authSlice.reducer;

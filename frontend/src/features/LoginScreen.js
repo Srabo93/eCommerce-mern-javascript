@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./api/shopSlice";
 
 import Loader from "../components/Loader";
@@ -16,27 +16,24 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-/**
- * TODO: navigate away after success log
- */
 const LoginScreen = () => {
+  const navigate = useNavigate();
   const [login, { isLoading, isError, error }] = useLoginMutation();
-
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
   });
 
-  let status;
-
   const submitHandler = async () => {
     try {
       await login(userCredentials).unwrap();
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  let status;
   if (isLoading) {
     status = <Loader />;
   } else if (isError) {
