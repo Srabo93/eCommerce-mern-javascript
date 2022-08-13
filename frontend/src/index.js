@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 /*Redux Provider */
 import store from "./store";
 import { Provider } from "react-redux";
-import { extendedApiSlice } from "./features/productsSlice";
+import { shopApi } from "./features/api/shopSlice";
+import { isLoggedIn } from "./features/auth/authSlice";
 /*React Router */
 import { BrowserRouter } from "react-router-dom";
 /*ChakraProvider */
@@ -14,7 +15,8 @@ import "../src/theme/styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-store.dispatch(extendedApiSlice.endpoints.getProducts.initiate());
+store.dispatch(shopApi.endpoints.getProducts.initiate());
+store.dispatch(isLoggedIn());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProductById } from "../features/productsSlice";
+import { selectProductById } from "../features/api/shopSlice";
 import { addItem } from "./cartSlice";
 import {
   Button,

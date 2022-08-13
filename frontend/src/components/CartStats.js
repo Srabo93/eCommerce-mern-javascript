@@ -8,7 +8,7 @@ const CartStats = ({ cartItems }) => {
         Subtotal {cartItems.length} Items
       </StatLabel>
       <StatNumber>
-        ${" "}
+        $
         {cartItems
           .reduce(
             (acc, item) => acc + Number(item.qty) * Number(item.product.price),
