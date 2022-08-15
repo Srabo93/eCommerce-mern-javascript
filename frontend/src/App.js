@@ -6,6 +6,7 @@ import HomeScreen from "./features/HomeScreen";
 import ProductScreen from "./features/ProductScreen";
 import CartScreen from "./features/CartScreen";
 import LoginScreen from "./features/LoginScreen";
+import RegisterScreen from "./features/RegisterScreen";
 import { Container } from "@chakra-ui/react";
 
 const App = () => {
@@ -20,7 +21,8 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<HomeScreen />} index />
-          <Route path="/login" element={<LoginScreen />} index />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
           <Route path="/products/:id" element={<ProductScreen />} />
           <Route path="/cart" element={<CartScreen />}>
             <Route path="/cart/:id" element={<CartScreen />} />
