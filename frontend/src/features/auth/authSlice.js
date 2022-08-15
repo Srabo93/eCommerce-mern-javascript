@@ -28,11 +28,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(shopApi.endpoints.login.matchPending, (state, action) => {
-        console.log("pending", action);
-      })
       .addMatcher(shopApi.endpoints.login.matchFulfilled, (state, action) => {
-        console.log("fulfilled", action);
         localStorage.setItem(
           "authorization",
           JSON.stringify({
@@ -46,11 +42,26 @@ const authSlice = createSlice({
       })
       .addMatcher(shopApi.endpoints.login.matchRejected, (state, action) => {
         console.log("rejected", action);
-      });
+      })
+      .addMatcher(
+        shopApi.endpoints.register.matchFulfilled,
+        (state, action) => {
+          localStorage.setItem(
+            "authorization",
+            JSON.stringify({
+              token: action.payload.token,
+              user: action.payload.name,
+            })
+          );
+          state.user = action.payload.name;
+          state.token = action.payload.token;
+          state.isAuthenticated = true;
+        }
+      );
   },
 });
 
-export const { logout, isLoggedIn } = authSlice.actions;
+export const { logout, login, isLoggedIn } = authSlice.actions;
 //this will return false always i guess, for now
 export const selectAuthenticatedUser = (state) => state.auth;
 

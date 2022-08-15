@@ -53,13 +53,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
  * @access Public
  */
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmedPassword } = req.body;
 
   const userExists = await User.findOne({ email: email });
 
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
+  }
+
+  if (password !== confirmedPassword) {
+    res.status(400);
+    throw new Error("Passwords do not match");
   }
 
   const user = await User.create({

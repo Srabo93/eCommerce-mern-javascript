@@ -3,7 +3,7 @@ import { apiSlice } from "./apiSlice";
 
 const shopAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt),
-  selectId: (product) => product._id,
+  selectId: (response) => response._id,
 });
 
 const initialState = shopAdapter.getInitialState();
@@ -13,6 +13,13 @@ export const shopApi = apiSlice.injectEndpoints({
     login: builder.mutation({
       query: (credentials) => ({
         url: "/users/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    register: builder.mutation({
+      query: (credentials) => ({
+        url: "/users",
         method: "POST",
         body: credentials,
       }),
@@ -30,7 +37,8 @@ export const shopApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useLoginMutation } = shopApi;
+export const { useGetProductsQuery, useLoginMutation, useRegisterMutation } =
+  shopApi;
 
 export const selectProductsResult = shopApi.endpoints.getProducts.select();
 
@@ -48,5 +56,5 @@ export const {
 );
 
 export const {
-  endpoints: { login },
+  endpoints: { login, register },
 } = shopApi;
