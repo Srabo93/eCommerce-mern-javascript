@@ -30,30 +30,32 @@ const Header = () => {
 
   if (isAuthenticated) {
     userAction = (
-      <Menu>
-        <MenuButton
-          as={Button}
-          rightIcon={<ChevronDownIcon />}
-          colorScheme="black"
-        >
-          <Text
-            fontWeight="normal"
-            fontSize="sm"
-            fontStyle="inherit"
-            casing="uppercase"
+      <BreadcrumbItem>
+        <Menu>
+          <MenuButton
+            as={Button}
+            rightIcon={<ChevronDownIcon />}
+            colorScheme="black"
           >
-            {user}
-          </Text>
-        </MenuButton>
-        <MenuList bgColor="gray.200">
-          <MenuItem color="black">
-            <Link to="/profile">Profile</Link>
-          </MenuItem>
-          <MenuItem color="black" onClick={logOut}>
-            Log Out
-          </MenuItem>
-        </MenuList>
-      </Menu>
+            <Text
+              fontWeight="normal"
+              fontSize="sm"
+              fontStyle="inherit"
+              casing="uppercase"
+            >
+              {user}
+            </Text>
+          </MenuButton>
+          <MenuList bgColor="gray.200">
+            <MenuItem color="black">
+              <Link to="/profile">Profile</Link>
+            </MenuItem>
+            <MenuItem color="black" onClick={logOut}>
+              Log Out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </BreadcrumbItem>
     );
   } else {
     userAction = (
@@ -83,7 +85,7 @@ const Header = () => {
               <Text>CART</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbItem>{userAction}</BreadcrumbItem>
+          {userAction}
         </Breadcrumb>
       </Flex>
     </Container>
