@@ -65,7 +65,3 @@ export const {
 } = shopAdapter.getSelectors(
   (state) => selectProductsData(state) ?? initialState
 );
-
-export const {
-  endpoints: { login, register },
-} = shopApi;
