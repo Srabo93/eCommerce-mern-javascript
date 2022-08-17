@@ -57,6 +57,20 @@ const authSlice = createSlice({
           state.token = action.payload.token;
           state.isAuthenticated = true;
         }
+      )
+      .addMatcher(
+        shopApi.endpoints.updateUserCredentials.matchRejected,
+        (state, action) => {
+          console.log("rejected", action);
+        }
+      )
+      .addMatcher(
+        shopApi.endpoints.updateUserCredentials.matchFulfilled,
+        (state, action) => {
+          state.user = action.payload.name;
+          state.token = action.payload.token;
+          state.isAuthenticated = true;
+        }
       );
   },
 });

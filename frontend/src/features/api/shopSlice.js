@@ -24,6 +24,13 @@ export const shopApi = apiSlice.injectEndpoints({
         body: credentials,
       }),
     }),
+    updateUserCredentials: builder.mutation({
+      query: (credentials) => ({
+        url: "/users/profile",
+        method: "PUT",
+        body: credentials,
+      }),
+    }),
     getProducts: builder.query({
       query: () => "/products",
       transformResponse: (responseData) => {
@@ -37,8 +44,12 @@ export const shopApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useLoginMutation, useRegisterMutation } =
-  shopApi;
+export const {
+  useGetProductsQuery,
+  useLoginMutation,
+  useRegisterMutation,
+  useUpdateUserCredentialsMutation,
+} = shopApi;
 
 export const selectProductsResult = shopApi.endpoints.getProducts.select();
 

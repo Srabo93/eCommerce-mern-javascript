@@ -47,9 +47,9 @@ const Header = () => {
             </Text>
           </MenuButton>
           <MenuList bgColor="gray.200">
-            <MenuItem color="black">
-              <Link to="/profile">Profile</Link>
-            </MenuItem>
+            <BreadcrumbLink as={Link} to="/profile">
+              <MenuItem color="black">Profile</MenuItem>
+            </BreadcrumbLink>
             <MenuItem color="black" onClick={logOut}>
               Log Out
             </MenuItem>
