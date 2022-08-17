@@ -14,7 +14,7 @@ const CartScreen = () => {
 
   const checkOutHandler = () => {
     console.log("Checkout");
-    navigate("/shipping");
+    isAuthenticated ? navigate("/shipping") : navigate("/login");
   };
 
   return (
@@ -36,7 +36,7 @@ const CartScreen = () => {
       </Grid>
       <Button
         mt={3}
-        disabled={cartItems.length === 0 || !isAuthenticated}
+        disabled={cartItems.length === 0}
         onClick={checkOutHandler}
       >
         Proceed To Checkout
