@@ -1,19 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "../features/cartSlice";
+import { useNavigate } from "react-router-dom";
+import { selectAuthenticatedUser } from "./auth/authSlice";
 import { Container, Heading, Grid, GridItem, Button } from "@chakra-ui/react";
 import Feature from "../components/Feature";
 import CartStats from "../components/CartStats";
-import { useNavigate } from "react-router-dom";
 
 const CartScreen = () => {
   const cartItems = useSelector(selectAllItems);
-
+  const { isAuthenticated } = useSelector(selectAuthenticatedUser);
   const navigate = useNavigate();
 
   const checkOutHandler = () => {
     console.log("Checkout");
-    navigate("/login?redirect=shipping");
+    navigate("/shipping");
   };
 
   return (
@@ -35,7 +36,7 @@ const CartScreen = () => {
       </Grid>
       <Button
         mt={3}
-        disabled={cartItems.length === 0}
+        disabled={cartItems.length === 0 || !isAuthenticated}
         onClick={checkOutHandler}
       >
         Proceed To Checkout
