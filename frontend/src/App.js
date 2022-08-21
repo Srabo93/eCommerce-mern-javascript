@@ -9,6 +9,7 @@ import LoginScreen from "./features/LoginScreen";
 import RegisterScreen from "./features/RegisterScreen";
 import ProfileScreen from "./features/ProfileScreen";
 import ShippingScreen from "./features/ShippingScreen";
+import PaymentScreen from "./features/PaymentScreen";
 import { Container } from "@chakra-ui/react";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
           <Route path="/shipping" element={<ShippingScreen />} />
+          <Route path="/payment" element={<PaymentScreen />} />
           <Route path="/products/:id" element={<ProductScreen />} />
           <Route path="/cart" element={<CartScreen />}>
             <Route path="/cart/:id" element={<CartScreen />} />

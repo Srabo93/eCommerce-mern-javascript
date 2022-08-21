@@ -4,7 +4,10 @@ const cartAdapter = createEntityAdapter({
   selectId: (payload) => payload.product._id,
 });
 
-const initialState = cartAdapter.getInitialState({ shipping: null });
+const initialState = cartAdapter.getInitialState({
+  shipping: null,
+  paymentMethod: null,
+});
 
 const cartSlice = createSlice({
   name: "cart",
@@ -12,6 +15,10 @@ const cartSlice = createSlice({
   reducers: {
     addShipping(state, { payload }) {
       state.shipping = payload;
+      localStorage.setItem("cart", JSON.stringify(state));
+    },
+    addPaymentMethod(state, { payload }) {
+      state.paymentMethod = payload;
       localStorage.setItem("cart", JSON.stringify(state));
     },
     addItem(state, { payload }) {
@@ -44,7 +51,13 @@ export const {
   selectIds: selectItemIds,
 } = cartAdapter.getSelectors((state) => state.cart);
 
-export const { addItem, removeItem, updateQty, loadCart, addShipping } =
-  cartSlice.actions;
+export const {
+  addItem,
+  removeItem,
+  updateQty,
+  loadCart,
+  addShipping,
+  addPaymentMethod,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
