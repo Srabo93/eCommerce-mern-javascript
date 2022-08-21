@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addShipping } from "./auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-
+import { addShipping } from "./cartSlice";
+import { useDispatch } from "react-redux";
+import CheckOutSteps from "../components/CheckOutSteps";
 import {
   FormControl,
   FormLabel,
@@ -51,6 +51,7 @@ const ShippingScreen = () => {
       alignItems="center"
     >
       <FormControl isRequired>
+        <CheckOutSteps step1 step2 />
         <Heading mb={3} as="h2">
           Shipping
         </Heading>
