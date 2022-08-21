@@ -15,7 +15,7 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
     addItem(state, { payload }) {
-      cartAdapter.addOne(state, payload);
+      cartAdapter.setOne(state, payload);
       localStorage.setItem("cart", JSON.stringify(state));
     },
     removeItem(state, { payload }) {
