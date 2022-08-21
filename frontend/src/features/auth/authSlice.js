@@ -5,7 +5,6 @@ const initialState = {
   user: null,
   token: null,
   shipping: null,
-  isAuthenticated: false,
 };
 
 const authSlice = createSlice({
@@ -26,10 +25,6 @@ const authSlice = createSlice({
       } else {
         return initialState;
       }
-    },
-    addShipping(state, action) {
-      state.shipping = action.payload;
-      localStorage.setItem("authorization", JSON.stringify(state));
     },
   },
   extraReducers: (builder) => {
@@ -81,7 +76,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, login, isLoggedIn, addShipping } = authSlice.actions;
+export const { logout, login, isLoggedIn } = authSlice.actions;
 //this will return false always i guess, for now
 export const selectAuthenticatedUser = (state) => state.auth;
 
