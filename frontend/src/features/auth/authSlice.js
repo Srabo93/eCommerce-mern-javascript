@@ -4,7 +4,6 @@ import { shopApi } from "../api/shopSlice";
 const initialState = {
   user: null,
   token: null,
-  shipping: null,
 };
 
 const authSlice = createSlice({
@@ -13,6 +12,7 @@ const authSlice = createSlice({
   reducers: {
     logout() {
       localStorage.removeItem("authorization");
+      localStorage.removeItem("cart");
       return initialState;
     },
     isLoggedIn(state) {
@@ -20,7 +20,6 @@ const authSlice = createSlice({
       if (isAuthorized) {
         state.user = isAuthorized.user;
         state.token = isAuthorized.token;
-        state.shipping = isAuthorized.shipping;
         state.isAuthenticated = true;
       } else {
         return initialState;
@@ -77,7 +76,7 @@ const authSlice = createSlice({
 });
 
 export const { logout, login, isLoggedIn } = authSlice.actions;
-//this will return false always i guess, for now
+
 export const selectAuthenticatedUser = (state) => state.auth;
 
 export default authSlice.reducer;
