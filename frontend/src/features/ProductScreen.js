@@ -28,7 +28,7 @@ const ProductScreen = () => {
   const product = useSelector((state) => selectProductById(state, params.id));
 
   const addToCartHandler = (product) => {
-    dispatch(addItem({ itemId: product._id, product, qty }));
+    dispatch(addItem({ product, qty }));
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 

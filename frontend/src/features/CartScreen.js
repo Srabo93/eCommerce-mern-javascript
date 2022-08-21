@@ -27,7 +27,7 @@ const CartScreen = () => {
       >
         <GridItem colSpan={4}>
           {cartItems.map((cartItem) => (
-            <Feature item={cartItem} key={cartItem.itemId} />
+            <Feature item={cartItem} key={cartItem.product._id} />
           ))}
         </GridItem>
         <GridItem rowSpan={2} colSpan={2}>
