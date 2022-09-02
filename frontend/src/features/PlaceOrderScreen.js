@@ -18,8 +18,15 @@ import {
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
   const products = useSelector(selectAllItems);
-
-  console.log(products);
+  const itemsTotal = products.reduce(
+    (acc, product) => acc + product.subtotal,
+    0
+  );
+  const shipping = itemsTotal < 50 ? 20 : 0;
+  const tax = parseFloat((itemsTotal / 100) * 19).toFixed(2);
+  const total = Number(
+    itemsTotal + parseFloat((itemsTotal / 100) * 19)
+  ).toFixed(2);
 
   return (
     <>
@@ -58,18 +65,19 @@ const PlaceOrderScreen = () => {
           <Heading as="h2" size="lg" my={3}>
             Order Items
           </Heading>
-          <VStack alignItems="start">
-            {products.map((element) => (
+          <VStack>
+            {products.map((product) => (
               <Box
                 w="full"
-                key={element.product._id}
+                key={product.product._id}
                 display="flex"
                 flexDir="column"
+                alignItems="start"
               >
-                <Text>{element.product.name}</Text>
+                <Text>{product.product.name}</Text>
                 <Text ml={{ base: "0", lg: "auto" }}>
-                  {element.qty} X {element.product.price} = $
-                  {element.qty * element.product.price}
+                  {product.qty} X {product.product.price} = $
+                  {parseFloat(product.subtotal).toFixed(2)}
                 </Text>
                 <Divider />
               </Box>
@@ -93,7 +101,7 @@ const PlaceOrderScreen = () => {
               justifyContent="space-between"
             >
               <Text>Items: </Text>
-              <Text>$985</Text>
+              <Text>${itemsTotal}</Text>
             </Box>
             <Divider />
 
@@ -104,7 +112,7 @@ const PlaceOrderScreen = () => {
               justifyContent="space-between"
             >
               <Text>Shipping: $</Text>
-              <Text>$985</Text>
+              <Text>${shipping}</Text>
             </Box>
             <Divider />
 
@@ -115,7 +123,7 @@ const PlaceOrderScreen = () => {
               justifyContent="space-between"
             >
               <Text>Tax: $</Text>
-              <Text>$985</Text>
+              <Text>${tax}</Text>
             </Box>
             <Divider />
 
@@ -126,7 +134,7 @@ const PlaceOrderScreen = () => {
               justifyContent="space-between"
             >
               <Text>Total: $</Text>
-              <Text>$985</Text>
+              <Text>${total}</Text>
             </Box>
             <Divider />
           </VStack>

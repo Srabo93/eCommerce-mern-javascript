@@ -28,7 +28,8 @@ const ProductScreen = () => {
   const product = useSelector((state) => selectProductById(state, params.id));
 
   const addToCartHandler = (product) => {
-    dispatch(addItem({ product, qty }));
+    let subtotal = Number(product.price * qty);
+    dispatch(addItem({ product, qty, subtotal }));
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 

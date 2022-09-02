@@ -43,6 +43,7 @@ const Feature = ({ item }) => {
                   updateQty({
                     id: product._id,
                     changes: {
+                      subtotal: Number(product.price * e.target.value),
                       qty: e.target.value,
                     },
                   })
