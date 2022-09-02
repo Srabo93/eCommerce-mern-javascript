@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Order from "../models/orderModel";
-
+import Order from "../models/orderModel.js";
 /**
  * @description Create new Order
  * @route POST /api/orders
@@ -8,27 +7,26 @@ import Order from "../models/orderModel";
  */
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
-    orderedItems,
-    shippingAdress,
+    orderItems,
+    shippingAddress,
     paymentMethod,
     itemsPrice,
-    tax,
+    taxPrice,
     shippingPrice,
     totalPrice,
   } = req.body;
 
-  if (orderedItems && orderedItems.length === 0) {
+  if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("no ordered Items found");
-    return;
   }
   const order = new Order({
     user: req.user._id,
-    orderedItems,
-    shippingAdress,
+    orderItems,
+    shippingAddress,
     paymentMethod,
     itemsPrice,
-    tax,
+    taxPrice,
     shippingPrice,
     totalPrice,
   });
