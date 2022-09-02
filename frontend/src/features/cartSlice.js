@@ -38,6 +38,7 @@ const cartSlice = createSlice({
       if (cartItems !== null) {
         cartAdapter.setAll(state, cartItems.entities);
         state.shipping = cartItems.shipping;
+        state.paymentMethod = cartItems.paymentMethod;
       } else {
         return initialState;
       }
