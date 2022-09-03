@@ -31,6 +31,13 @@ export const shopApi = apiSlice.injectEndpoints({
         body: credentials,
       }),
     }),
+    createOrder: builder.mutation({
+      query: (credentials) => ({
+        url: "/orders",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
     getProducts: builder.query({
       query: () => "/products",
       transformResponse: (responseData) => {
@@ -49,6 +56,7 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useUpdateUserCredentialsMutation,
+  useCreateOrderMutation,
 } = shopApi;
 
 export const selectProductsResult = shopApi.endpoints.getProducts.select();

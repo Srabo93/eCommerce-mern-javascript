@@ -7,7 +7,7 @@ import Order from "../models/orderModel.js";
  */
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
-    orderItems,
+    unorderedItems,
     shippingAddress,
     paymentMethod,
     itemsPrice,
@@ -15,11 +15,22 @@ const addOrderItems = asyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body;
+  let orderItems = [];
 
-  if (orderItems && orderItems.length === 0) {
+  if (unorderedItems && unorderedItems.length === 0) {
     res.status(400);
     throw new Error("no ordered Items found");
   }
+
+  /**
+   * This sorting method is neccessary so it maps with the orderModel
+   */
+  unorderedItems.map((product) => {
+    product.product.qty = product.qty;
+    product.product.product = product.product._id;
+    orderItems.push(product.product);
+  });
+
   const order = new Order({
     user: req.user._id,
     orderItems,

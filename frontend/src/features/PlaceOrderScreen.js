@@ -1,7 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "./cartSlice";
+import { useCreateOrderMutation } from "./api/shopSlice";
 import CheckOutSteps from "../components/CheckOutSteps";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import {
   Heading,
   Text,
@@ -16,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 const PlaceOrderScreen = () => {
+  const [create, { isLoading, isError, error }] = useCreateOrderMutation();
   const cart = useSelector((state) => state.cart);
   const products = useSelector(selectAllItems);
   const itemsTotal = products.reduce(
@@ -28,9 +32,33 @@ const PlaceOrderScreen = () => {
     itemsTotal + parseFloat((itemsTotal / 100) * 19)
   ).toFixed(2);
 
+  const placeOrderHandler = async () => {
+    try {
+      await create({
+        unorderedItems: products,
+        shippingAddress: cart.shipping,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: itemsTotal,
+        taxPrice: tax,
+        shippingPrice: shipping,
+        totalPrice: total,
+      }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let status;
+  if (isLoading) {
+    status = <Loader />;
+  } else if (isError) {
+    status = <Message m={3} error={error.data.message} />;
+  }
+
   return (
     <>
       <CheckOutSteps step1 step2 step3 step4 />
+      {status}
       <Grid
         mt={6}
         w={["90vw", "100vw", "70vw"]}
@@ -138,7 +166,7 @@ const PlaceOrderScreen = () => {
             </Box>
             <Divider />
           </VStack>
-          <Button my={3} w="full">
+          <Button my={3} w="full" onClick={placeOrderHandler}>
             Place Order
           </Button>
         </GridItem>
