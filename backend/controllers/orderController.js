@@ -27,7 +27,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
    */
   unorderedItems.map((product) => {
     product.product.qty = product.qty;
-    product.product.product = product.product._id;
     orderItems.push(product.product);
   });
 
@@ -46,4 +45,24 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   res.status(201).json(orderCreated);
 });
-export { addOrderItems };
+
+/**
+ * @description Get Order By Id
+ * @route GET /api/order/:id
+ * @access private
+ */
+const getOrderById = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
+
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+
+  res.json(order);
+});
+
+export { addOrderItems, getOrderById };

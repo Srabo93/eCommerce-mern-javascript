@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "./cartSlice";
 import { useCreateOrderMutation } from "./api/shopSlice";
@@ -19,7 +20,9 @@ import {
 } from "@chakra-ui/react";
 
 const PlaceOrderScreen = () => {
-  const [create, { isLoading, isError, error }] = useCreateOrderMutation();
+  const navigate = useNavigate();
+  const [create, { isLoading, data, isSuccess, isError, error }] =
+    useCreateOrderMutation();
   const cart = useSelector((state) => state.cart);
   const products = useSelector(selectAllItems);
   const itemsTotal = products.reduce(
@@ -47,6 +50,15 @@ const PlaceOrderScreen = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate(`/orders/${data._id}`);
+    }
+    //TODO: maybe delete the cartInformation in here hence its sucessfull
+
+    return () => {};
+  }, [isSuccess, data, navigate]);
 
   let status;
   if (isLoading) {
