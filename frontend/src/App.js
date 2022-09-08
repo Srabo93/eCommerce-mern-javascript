@@ -11,6 +11,7 @@ import ProfileScreen from "./features/ProfileScreen";
 import ShippingScreen from "./features/ShippingScreen";
 import PaymentScreen from "./features/PaymentScreen";
 import PlaceOrderScreen from "./features/PlaceOrderScreen";
+import OrderScreen from "./features/OrderScreen";
 import { Container } from "@chakra-ui/react";
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/shipping" element={<ShippingScreen />} />
           <Route path="/payment" element={<PaymentScreen />} />
           <Route path="/placeorder" element={<PlaceOrderScreen />} />
+          <Route path="/orders/:id" element={<OrderScreen />} />
           <Route path="/products/:id" element={<ProductScreen />} />
           <Route path="/cart" element={<CartScreen />}>
             <Route path="/cart/:id" element={<CartScreen />} />

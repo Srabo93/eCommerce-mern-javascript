@@ -38,6 +38,10 @@ export const shopApi = apiSlice.injectEndpoints({
         body: credentials,
       }),
     }),
+    getOrder: builder.query({
+      query: (id) => `/orders/${id}`,
+      providesTags: (result, error, arg) => [{ type: "Order" }],
+    }),
     getProducts: builder.query({
       query: () => "/products",
       transformResponse: (responseData) => {
@@ -57,6 +61,7 @@ export const {
   useRegisterMutation,
   useUpdateUserCredentialsMutation,
   useCreateOrderMutation,
+  useGetOrderQuery,
 } = shopApi;
 
 export const selectProductsResult = shopApi.endpoints.getProducts.select();
