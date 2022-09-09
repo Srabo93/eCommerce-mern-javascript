@@ -12,12 +12,14 @@ import {
   Image,
   VStack,
   Box,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 const OrderScreen = () => {
   const { id } = useParams();
   const { data, isSuccess, isLoading, isError, error } = useGetOrderQuery(id);
-
+  console.log(data);
   let status;
 
   if (isLoading) {
@@ -58,11 +60,35 @@ const OrderScreen = () => {
               {data.shippingAddress.city} {data.shippingAddress.postalCode}{" "}
               {data.shippingAddress.country}
             </Text>
+            {data.isShipped ? (
+              <Alert status="success">
+                {" "}
+                <AlertIcon />
+                Paid on {data.shippedAt}
+              </Alert>
+            ) : (
+              <Alert status="error">
+                <AlertIcon />
+                Not Delivered
+              </Alert>
+            )}
             <Divider />
             <Heading as="h2" size="lg" my={3}>
               Payment Method
             </Heading>
             <Text mb={3}>Method: {data.paymentMethod}</Text>
+            {data.isPayed ? (
+              <Alert status="success">
+                {" "}
+                <AlertIcon />
+                Paid on {data.paidAt}
+              </Alert>
+            ) : (
+              <Alert status="error">
+                <AlertIcon />
+                Not Paid
+              </Alert>
+            )}
             <Divider />
             <Heading as="h2" size="lg" my={3}>
               Ordered Items
