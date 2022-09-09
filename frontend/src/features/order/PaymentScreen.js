@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addPaymentMethod } from "./cartSlice";
-import CheckOutSteps from "../components/CheckOutSteps";
-import Message from "../components/Message";
+import { addPaymentMethod } from "../cart/cartSlice";
+import CheckOutSteps from "../../components/CheckOutSteps";
+import Message from "../../components/Message";
 import {
   Box,
   Radio,

@@ -4,14 +4,14 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./features/HomeScreen";
 import ProductScreen from "./features/ProductScreen";
-import CartScreen from "./features/CartScreen";
-import LoginScreen from "./features/LoginScreen";
-import RegisterScreen from "./features/RegisterScreen";
-import ProfileScreen from "./features/ProfileScreen";
-import ShippingScreen from "./features/ShippingScreen";
-import PaymentScreen from "./features/PaymentScreen";
-import PlaceOrderScreen from "./features/PlaceOrderScreen";
-import OrderScreen from "./features/OrderScreen";
+import CartScreen from "./features/cart/CartScreen";
+import LoginScreen from "./features/auth/LoginScreen";
+import RegisterScreen from "./features/auth/RegisterScreen";
+import ProfileScreen from "./features/auth/ProfileScreen";
+import ShippingScreen from "./features/order/ShippingScreen";
+import PaymentScreen from "./features/order/PaymentScreen";
+import PlaceOrderScreen from "./features/order/PlaceOrderScreen";
+import OrderScreen from "./features/order/OrderScreen";
 import { Container } from "@chakra-ui/react";
 
 const App = () => {

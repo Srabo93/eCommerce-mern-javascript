@@ -5,7 +5,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { api } from "./features/services/api";
 import { isLoggedIn } from "./features/auth/authSlice";
-import { loadCart } from "./features/cartSlice";
+import { loadCart } from "./features/cart/cartSlice";
 /*React Router */
 import { BrowserRouter } from "react-router-dom";
 /*ChakraProvider */

@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectAllItems } from "../features/cartSlice";
+import { selectAllItems } from "./cartSlice";
 import { useNavigate } from "react-router-dom";
-import { selectAuthenticatedUser } from "./auth/authSlice";
+import { selectAuthenticatedUser } from "../auth/authSlice";
 import { Container, Heading, Grid, GridItem, Button } from "@chakra-ui/react";
-import Feature from "../components/Feature";
-import CartStats from "../components/CartStats";
+import Feature from "../../components/Feature";
+import CartStats from "../../components/CartStats";
 
 const CartScreen = () => {
   const cartItems = useSelector(selectAllItems);

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { updateQty, removeItem } from "../features/cartSlice";
+import { updateQty, removeItem } from "../features/cart/cartSlice";
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Stack,

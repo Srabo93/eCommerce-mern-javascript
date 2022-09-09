@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addShipping } from "./cartSlice";
+import { addShipping } from "../cart/cartSlice";
 import { useDispatch } from "react-redux";
-import CheckOutSteps from "../components/CheckOutSteps";
+import CheckOutSteps from "../../components/CheckOutSteps";
 import {
   FormControl,
   FormLabel,

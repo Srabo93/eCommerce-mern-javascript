@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "./services/user";
-
-import Loader from "../components/Loader";
-import Message from "../components/Message";
+import { useRegisterMutation } from "../services/user";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
 
 import {
   FormControl,
@@ -15,23 +14,15 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const navigate = useNavigate();
-  const [login, { isLoading, isError, error }] = useLoginMutation();
+  const [register, { isLoading, isError, error }] = useRegisterMutation();
   const [userCredentials, setUserCredentials] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
-
-  const submitHandler = async () => {
-    try {
-      await login(userCredentials).unwrap();
-      navigate("/");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   let status;
   if (isLoading) {
@@ -39,6 +30,24 @@ const LoginScreen = () => {
   } else if (isError) {
     status = <Message m={3} error={error.data.message} />;
   }
+
+  const validInputs = [
+    userCredentials.name,
+    userCredentials.email,
+    userCredentials.password,
+    userCredentials.confirmPassword,
+  ].every(String);
+
+  const submitHandler = async () => {
+    if (validInputs) {
+      try {
+        await register(userCredentials).unwrap();
+        navigate("/");
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
   return (
     <Box
@@ -51,8 +60,24 @@ const LoginScreen = () => {
       {status}
       <FormControl isRequired>
         <Heading mb={3} as="h2">
-          Sign In
+          Register
         </Heading>
+        <FormLabel id="name">Name</FormLabel>
+        <Input
+          id="name"
+          mb={2}
+          type="text"
+          placeholder="Enter Name"
+          value={userCredentials.name}
+          onChange={(e) =>
+            setUserCredentials({ ...userCredentials, name: e.target.value })
+          }
+        />
+        {isError ? (
+          <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
+        ) : (
+          ""
+        )}
         <FormLabel id="email">Email address</FormLabel>
         <Input
           id="email"
@@ -85,15 +110,34 @@ const LoginScreen = () => {
         ) : (
           ""
         )}
+        <FormLabel id="repeatPassword">Repeat Password</FormLabel>
+        <Input
+          id="repeatPassword"
+          mb={3}
+          type="password"
+          placeholder="Confirm Password"
+          value={userCredentials.confirmPassword}
+          onChange={(e) =>
+            setUserCredentials({
+              ...userCredentials,
+              confirmPassword: e.target.value,
+            })
+          }
+        />
+        {isError ? (
+          <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
+        ) : (
+          ""
+        )}
         <Button w="full" mb={3} type="submit" onClick={submitHandler}>
-          Sign In
+          Register
         </Button>
       </FormControl>
       <Text fontWeight="semi-bold" decoration="underline">
-        <Link to="/register">New Customer? Register</Link>
+        <Link to="/login">Already Registered? Sign In!</Link>
       </Text>
     </Box>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
