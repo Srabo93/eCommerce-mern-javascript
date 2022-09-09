@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetOrderQuery } from "./api/shopSlice";
+import { useGetOrderQuery } from "./services/orders";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import {

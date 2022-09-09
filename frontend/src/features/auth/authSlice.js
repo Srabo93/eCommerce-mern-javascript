@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { shopApi } from "../api/shopSlice";
+import { userApi } from "../services/user";
 
 const initialState = {
   user: null,
@@ -28,7 +28,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(shopApi.endpoints.login.matchFulfilled, (state, action) => {
+      .addMatcher(userApi.endpoints.login.matchFulfilled, (state, action) => {
         localStorage.setItem(
           "authorization",
           JSON.stringify({
@@ -40,11 +40,11 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.isAuthenticated = true;
       })
-      .addMatcher(shopApi.endpoints.login.matchRejected, (state, action) => {
+      .addMatcher(userApi.endpoints.login.matchRejected, (state, action) => {
         console.log("rejected", action);
       })
       .addMatcher(
-        shopApi.endpoints.register.matchFulfilled,
+        userApi.endpoints.register.matchFulfilled,
         (state, action) => {
           localStorage.setItem(
             "authorization",
@@ -59,13 +59,13 @@ const authSlice = createSlice({
         }
       )
       .addMatcher(
-        shopApi.endpoints.updateUserCredentials.matchRejected,
+        userApi.endpoints.updateUserCredentials.matchRejected,
         (state, action) => {
           console.log("rejected", action);
         }
       )
       .addMatcher(
-        shopApi.endpoints.updateUserCredentials.matchFulfilled,
+        userApi.endpoints.updateUserCredentials.matchFulfilled,
         (state, action) => {
           state.user = action.payload.name;
           state.token = action.payload.token;

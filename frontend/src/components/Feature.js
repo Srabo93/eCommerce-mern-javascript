@@ -36,7 +36,6 @@ const Feature = ({ item }) => {
         <Box w={["100%", "25%"]}>
           {product.countInStock > 0 && (
             <Select
-              placeholder={qty}
               maxW={["100%", "60%"]}
               onChange={(e) =>
                 dispatch(

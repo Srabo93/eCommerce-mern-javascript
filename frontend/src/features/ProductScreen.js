@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProductById } from "../features/api/shopSlice";
+import { selectProductById } from "../features/services/products";
 import { addItem } from "./cartSlice";
 import {
   Button,
@@ -20,7 +20,7 @@ import {
 import { StarIcon } from "@chakra-ui/icons";
 
 const ProductScreen = () => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   let params = useParams();
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -30,7 +30,7 @@ const ProductScreen = () => {
   const addToCartHandler = (product) => {
     let subtotal = Number(product.price * qty);
     dispatch(addItem({ product, qty, subtotal }));
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    navigate(`/cart/${params.id}`);
   };
 
   return (
@@ -88,7 +88,7 @@ const ProductScreen = () => {
           </HStack>
           {product.countInStock > 0 && (
             <Select
-              placeholder="Select Quantity"
+              // placeholder="Select Quantity"
               onChange={(e) => setQty(e.target.value)}
             >
               {[...Array(product.countInStock).keys()].map((count) => (

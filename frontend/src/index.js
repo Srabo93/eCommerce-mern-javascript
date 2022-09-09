@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 /*Redux Provider */
 import store from "./store";
 import { Provider } from "react-redux";
-import { shopApi } from "./features/api/shopSlice";
+import { api } from "./features/services/api";
 import { isLoggedIn } from "./features/auth/authSlice";
 import { loadCart } from "./features/cartSlice";
 /*React Router */
@@ -16,7 +16,7 @@ import "../src/theme/styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-store.dispatch(shopApi.endpoints.getProducts.initiate());
+store.dispatch(api.endpoints.getProducts.initiate());
 store.dispatch(isLoggedIn());
 store.dispatch(loadCart());
 

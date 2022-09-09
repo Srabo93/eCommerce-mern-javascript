@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectAllProducts, useGetProductsQuery } from "./api/shopSlice";
+import { selectAllProducts, useGetProductsQuery } from "./services/products";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import Product from "../components/Product";
 import Message from "../components/Message";

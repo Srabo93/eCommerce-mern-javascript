@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useUpdateUserCredentialsMutation } from "./api/shopSlice";
+import { useUpdateUserCredentialsMutation } from "./services/user";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import {

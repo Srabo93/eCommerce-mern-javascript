@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { addPaymentMethod } from "./cartSlice";
+import CheckOutSteps from "../components/CheckOutSteps";
 import Message from "../components/Message";
 import {
   Box,
@@ -10,8 +12,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import CheckOutSteps from "../components/CheckOutSteps";
-import { useNavigate } from "react-router-dom";
+
 const PaymentScreen = () => {
   const [payMethod, setPayMethod] = useState(null);
   const [formError, setFormError] = useState(null);

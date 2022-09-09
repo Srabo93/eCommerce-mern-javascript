@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "./cartSlice";
-import { useCreateOrderMutation } from "./api/shopSlice";
+import { useCreateOrderMutation } from "./services/orders";
 import CheckOutSteps from "../components/CheckOutSteps";
 import Loader from "../components/Loader";
 import Message from "../components/Message";

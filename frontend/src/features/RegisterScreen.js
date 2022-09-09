@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "./api/shopSlice";
+import { useRegisterMutation } from "./services/user";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
