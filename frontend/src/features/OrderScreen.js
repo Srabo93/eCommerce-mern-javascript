@@ -19,7 +19,7 @@ import {
 const OrderScreen = () => {
   const { id } = useParams();
   const { data, isSuccess, isLoading, isError, error } = useGetOrderQuery(id);
-  console.log(data);
+
   let status;
 
   if (isLoading) {
