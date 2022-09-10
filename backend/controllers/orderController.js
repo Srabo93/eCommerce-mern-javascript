@@ -67,11 +67,12 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 /**
  * @description Update Order to Paid
- * @route PUT /api/order/:id/pay
+ * @route PUT /api/orders/:id/pay
  * @access private
  */
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
+  const { id, status, payer, update_time } = req.body;
 
   if (!order) {
     res.status(404);
@@ -81,10 +82,10 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   order.isPaid = true;
   order.paidAt = Date.now();
   order.paymentResult = {
-    id: req.body.id,
-    status: req.body.status,
-    update_time: req.body.update_time,
-    email_address: req.body.payer.email_adress,
+    id,
+    status,
+    update_time,
+    email_address: payer.email_address,
   };
 
   const updatedOrder = await order.save();

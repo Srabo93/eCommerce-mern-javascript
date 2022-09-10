@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetOrderQuery } from "../services/orders";
+import { useGetOrderQuery, usePayOrderMutation } from "../services/orders";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import {
@@ -18,15 +19,27 @@ import {
 
 const OrderScreen = () => {
   const { id } = useParams();
-  const { data, isSuccess, isLoading, isError, error } = useGetOrderQuery(id);
+
+  const {
+    data: order,
+    isSuccess,
+    isLoading,
+    isError,
+    error,
+  } = useGetOrderQuery(id);
+
+  const [payOrder, { isError: updateFailed, error: updateError }] =
+    usePayOrderMutation();
 
   let status;
-
   if (isLoading) {
     status = <Loader />;
   }
   if (isError) {
     status = <Message m={3} error={error} />;
+  }
+  if (updateFailed) {
+    status = <Message m={3} error={updateError} />;
   }
 
   return (
@@ -47,24 +60,24 @@ const OrderScreen = () => {
             p={3}
           >
             <Heading as="h2" size="lg" mb={3}>
-              ORDER {data._id}
+              ORDER {order._id}
             </Heading>
             <Divider />
             <Heading as="h2" size="lg" my={3}>
               Shipping
             </Heading>
-            <Text mb={3}>Name: {data.user.name}</Text>
-            <Text mb={3}>Email: {data.user.email}</Text>
+            <Text mb={3}>Name: {order.user.name}</Text>
+            <Text mb={3}>Email: {order.user.email}</Text>
             <Text mb={3}>
-              Address: {data.shippingAddress.address}{" "}
-              {data.shippingAddress.city} {data.shippingAddress.postalCode}{" "}
-              {data.shippingAddress.country}
+              Address: {order.shippingAddress.address}{" "}
+              {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
+              {order.shippingAddress.country}
             </Text>
-            {data.isShipped ? (
+            {order.isShipped ? (
               <Alert status="success">
                 {" "}
                 <AlertIcon />
-                Paid on {data.shippedAt}
+                Paid on {order.shippedAt}
               </Alert>
             ) : (
               <Alert status="error">
@@ -76,12 +89,12 @@ const OrderScreen = () => {
             <Heading as="h2" size="lg" my={3}>
               Payment Method
             </Heading>
-            <Text mb={3}>Method: {data.paymentMethod}</Text>
-            {data.isPayed ? (
+            <Text mb={3}>Method: {order.paymentMethod}</Text>
+            {order.isPaid ? (
               <Alert status="success">
                 {" "}
                 <AlertIcon />
-                Paid on {data.paidAt}
+                Paid on {order.paidAt}
               </Alert>
             ) : (
               <Alert status="error">
@@ -94,7 +107,7 @@ const OrderScreen = () => {
               Ordered Items
             </Heading>
             <VStack>
-              {data.orderItems.map((product) => (
+              {order.orderItems.map((product) => (
                 <Box
                   w="full"
                   key={product._id}
@@ -115,7 +128,6 @@ const OrderScreen = () => {
                       {parseFloat(product.qty * product.price).toFixed(2)}
                     </Text>
                   </Box>
-
                   <Divider />
                 </Box>
               ))}
@@ -138,7 +150,7 @@ const OrderScreen = () => {
                 justifyContent="space-between"
               >
                 <Text>Items: </Text>
-                <Text>${data.totalPrice - data.taxPrice}</Text>
+                <Text>${order.totalPrice - order.taxPrice}</Text>
               </Box>
               <Divider />
 
@@ -149,7 +161,7 @@ const OrderScreen = () => {
                 justifyContent="space-between"
               >
                 <Text>Shipping: $</Text>
-                <Text>${data.shippingPrice}</Text>
+                <Text>${order.shippingPrice}</Text>
               </Box>
               <Divider />
 
@@ -160,7 +172,7 @@ const OrderScreen = () => {
                 justifyContent="space-between"
               >
                 <Text>Tax: $</Text>
-                <Text>${data.taxPrice}</Text>
+                <Text>${order.taxPrice}</Text>
               </Box>
               <Divider />
 
@@ -171,10 +183,29 @@ const OrderScreen = () => {
                 justifyContent="space-between"
               >
                 <Text>Total: $</Text>
-                <Text>${data.totalPrice}</Text>
+                <Text>${order.totalPrice}</Text>
               </Box>
               <Divider />
             </VStack>
+            <PayPalButtons
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: order.totalPrice,
+                      },
+                    },
+                  ],
+                });
+              }}
+              onApprove={(data, actions) => {
+                return actions.order.capture().then((details) => {
+                  details.orderId = id;
+                  payOrder(details);
+                });
+              }}
+            />
           </GridItem>
         </Grid>
       ) : (

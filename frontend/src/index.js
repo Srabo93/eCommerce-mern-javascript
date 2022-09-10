@@ -11,6 +11,8 @@ import { BrowserRouter } from "react-router-dom";
 /*ChakraProvider */
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
+/*CredentialsProvider */
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 /*App Components*/
 import "../src/theme/styles.css";
 import App from "./App";
@@ -22,14 +24,20 @@ store.dispatch(loadCart());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const paypalScriptOptions = {
+  currency: "USD",
+  "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+};
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </BrowserRouter>
+      <PayPalScriptProvider options={paypalScriptOptions}>
+        <BrowserRouter>
+          <ChakraProvider theme={theme}>
+            <App />
+          </ChakraProvider>
+        </BrowserRouter>
+      </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );
