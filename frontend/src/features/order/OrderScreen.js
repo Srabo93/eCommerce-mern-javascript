@@ -94,7 +94,7 @@ const OrderScreen = () => {
               <Alert status="success">
                 {" "}
                 <AlertIcon />
-                Paid on {order.paidAt}
+                Paid on {order.paidAt.substring(0, 10)}
               </Alert>
             ) : (
               <Alert status="error">
