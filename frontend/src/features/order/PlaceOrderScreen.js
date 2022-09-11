@@ -55,7 +55,6 @@ const PlaceOrderScreen = () => {
     if (isSuccess) {
       navigate(`/orders/${data._id}`);
     }
-    //TODO: maybe delete the cartInformation in here hence its sucessfull
 
     return () => {};
   }, [isSuccess, data, navigate]);

@@ -1,5 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removeCart } from "../cart/cartSlice";
 import { useGetOrderQuery, usePayOrderMutation } from "../services/orders";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Loader from "../../components/Loader";
@@ -19,7 +21,7 @@ import {
 
 const OrderScreen = () => {
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   const {
     data: order,
     isSuccess,
@@ -203,6 +205,7 @@ const OrderScreen = () => {
                 return actions.order.capture().then((details) => {
                   details.orderId = id;
                   payOrder(details);
+                  dispatch(removeCart());
                 });
               }}
             />

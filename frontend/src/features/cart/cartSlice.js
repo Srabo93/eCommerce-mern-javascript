@@ -43,6 +43,11 @@ const cartSlice = createSlice({
         return initialState;
       }
     },
+    removeCart(state) {
+      localStorage.removeItem("cart");
+      state = initialState;
+      cartAdapter.removeAll();
+    },
   },
 });
 
@@ -59,6 +64,7 @@ export const {
   loadCart,
   addShipping,
   addPaymentMethod,
+  removeCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
