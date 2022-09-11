@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useUpdateUserCredentialsMutation } from "../services/user";
+import { useGetAllOrdersQuery } from "../services/orders";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import TableComponent from "../../components/TableComponent";
 import {
   FormControl,
   FormLabel,
@@ -9,13 +11,22 @@ import {
   Heading,
   Button,
   Box,
-  HStack,
   StackDivider,
+  Stack,
 } from "@chakra-ui/react";
 
 const ProfileScreen = () => {
   const [update, { isLoading, isError, error }] =
     useUpdateUserCredentialsMutation();
+
+  const {
+    data: orders,
+    isSuccess,
+    isLoading: ordersLoading,
+    isError: loadingError,
+    error: ordersError,
+  } = useGetAllOrdersQuery();
+
   const [userCredentials, setUserCredentials] = useState({
     name: "",
     email: "",
@@ -61,7 +72,10 @@ const ProfileScreen = () => {
   };
 
   return (
-    <HStack divider={<StackDivider />}>
+    <Stack
+      divider={<StackDivider />}
+      direction={["column", "column", "column", "row"]}
+    >
       <Box>
         {status}
         {formErrors}
@@ -130,8 +144,15 @@ const ProfileScreen = () => {
           </Button>
         </FormControl>
       </Box>
-      <Box>My Orders</Box>
-    </HStack>
+      <Box style={{ marginBottom: "auto" }} px={3}>
+        <Heading mb={3} as="h2">
+          My Orders
+        </Heading>
+        <TableComponent
+          data={{ orders, ordersError, loadingError, ordersLoading, isSuccess }}
+        />
+      </Box>
+    </Stack>
   );
 };
 
