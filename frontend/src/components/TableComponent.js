@@ -51,7 +51,7 @@ const TableComponent = ({ data }) => {
         </Td>
         <Td p={2}>
           <Button>
-            <Link href={`order/${order._id}`}>Details</Link>
+            <Link href={`orders/${order._id}`}>Details</Link>
           </Button>
         </Td>
       </Tr>
