@@ -4,6 +4,7 @@ import { userApi } from "../services/user";
 const initialState = {
   user: null,
   token: null,
+  isAdmin: false,
 };
 
 const authSlice = createSlice({
@@ -20,6 +21,7 @@ const authSlice = createSlice({
       if (isAuthorized) {
         state.user = isAuthorized.user;
         state.token = isAuthorized.token;
+        state.isAdmin = isAuthorized.isAdmin;
         state.isAuthenticated = true;
       } else {
         return initialState;
@@ -34,10 +36,12 @@ const authSlice = createSlice({
           JSON.stringify({
             token: action.payload.token,
             user: action.payload.name,
+            isAdmin: action.payload.isAdmin,
           })
         );
         state.user = action.payload.name;
         state.token = action.payload.token;
+        state.isAdmin = action.payload.isAdmin;
         state.isAuthenticated = true;
       })
       .addMatcher(userApi.endpoints.login.matchRejected, (state, action) => {
@@ -51,10 +55,12 @@ const authSlice = createSlice({
             JSON.stringify({
               token: action.payload.token,
               user: action.payload.name,
+              isAdmin: action.payload.isAdmin,
             })
           );
           state.user = action.payload.name;
           state.token = action.payload.token;
+          state.isAdmin = action.payload.isAdmin;
           state.isAuthenticated = true;
         }
       )
@@ -69,6 +75,7 @@ const authSlice = createSlice({
         (state, action) => {
           state.user = action.payload.name;
           state.token = action.payload.token;
+          state.isAdmin = action.payload.isAdmin;
           state.isAuthenticated = true;
         }
       );

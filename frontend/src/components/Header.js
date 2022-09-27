@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuthenticatedUser } from "../features/auth/authSlice";
 import { logout } from "../features/auth/authSlice";
@@ -19,11 +19,15 @@ import {
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const Header = () => {
-  const { isAuthenticated, user } = useSelector(selectAuthenticatedUser);
+  const { isAuthenticated, user, isAdmin } = useSelector(
+    selectAuthenticatedUser
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logOut = () => {
     dispatch(logout());
+    navigate("/");
   };
 
   let userAction;
@@ -47,9 +51,24 @@ const Header = () => {
             </Text>
           </MenuButton>
           <MenuList bgColor="gray.200">
-            <BreadcrumbLink as={Link} to="/profile">
-              <MenuItem color="black">Profile</MenuItem>
-            </BreadcrumbLink>
+            {user && !isAdmin && (
+              <BreadcrumbLink as={Link} to="/profile">
+                <MenuItem color="black">Profile</MenuItem>
+              </BreadcrumbLink>
+            )}
+            {isAdmin && user && (
+              <>
+                <BreadcrumbLink as={Link} to="/admin/userlist">
+                  <MenuItem color="black">Users</MenuItem>
+                </BreadcrumbLink>
+                <BreadcrumbLink as={Link} to="/admin/productlist">
+                  <MenuItem color="black">Products</MenuItem>
+                </BreadcrumbLink>
+                <BreadcrumbLink as={Link} to="/admin/orderlist">
+                  <MenuItem color="black">Orders</MenuItem>
+                </BreadcrumbLink>
+              </>
+            )}
             <MenuItem color="black" onClick={logOut}>
               Log Out
             </MenuItem>
