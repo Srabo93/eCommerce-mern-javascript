@@ -23,10 +23,17 @@ export const userApi = api.injectEndpoints({
         body: credentials,
       }),
     }),
+    getUsers: builder.query({
+      query: () => ({
+        url: "/users",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetUsersQuery,
   useLoginMutation,
   useRegisterMutation,
   useUpdateUserCredentialsMutation,
