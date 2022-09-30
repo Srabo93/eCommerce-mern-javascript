@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { useGetUsersQuery, useDeleteUserMutation } from "./services/user";
 import {
   Button,
   Table,
@@ -15,21 +16,24 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { CloseIcon, CheckIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useGetUsersQuery } from "./services/user";
 
 const UserListScreen = () => {
+  const [deleteUser] = useDeleteUserMutation();
+
   const {
     data: users,
     isSuccess,
     isLoading,
     isError,
     error,
+    refetch: refetchUsers,
   } = useGetUsersQuery();
 
   let tBody;
 
-  const deleteHandler = (id) => {
-    console.log(id);
+  const deleteHandler = async (id) => {
+    await deleteUser(id);
+    await refetchUsers();
   };
 
   if (isLoading) {
