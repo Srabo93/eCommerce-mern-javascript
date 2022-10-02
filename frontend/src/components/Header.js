@@ -28,6 +28,7 @@ const Header = () => {
   const logOut = () => {
     dispatch(logout());
     navigate("/");
+    window.location.reload();
   };
 
   let userAction;
