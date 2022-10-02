@@ -17,6 +17,7 @@ import PlaceOrderScreen from "./features/order/PlaceOrderScreen";
 import OrderScreen from "./features/order/OrderScreen";
 import UserListScreen from "./features/UserListScreen";
 import UserEditScreen from "./features/UserEditScreen";
+import ProductListScreen from "./features/ProductListScreen";
 import { Container } from "@chakra-ui/react";
 
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
           >
             <Route path="/admin/userlist" element={<UserListScreen />} />
             <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+            <Route path="/admin/productlist" element={<ProductListScreen />} />
           </Route>
           <Route path="*" element={<HomeScreen />} />
         </Routes>
