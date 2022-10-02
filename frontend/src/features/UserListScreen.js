@@ -71,7 +71,13 @@ const UserListScreen = () => {
       </Tr>
     ));
   } else if (isError) {
-    tBody = <Message status="error" message={error} />;
+    tBody = (
+      <Tr>
+        <Td>
+          <Message status="error" message={error.data.message} />;
+        </Td>
+      </Tr>
+    );
   }
 
   return (

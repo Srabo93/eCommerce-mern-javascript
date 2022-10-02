@@ -57,7 +57,13 @@ const TableComponent = ({ data }) => {
       </Tr>
     ));
   } else if (loadingError) {
-    tBody = <Message status="error" message={ordersError} />;
+    tBody = (
+      <Tr>
+        <Td>
+          <Message status="error" message={ordersError} />;
+        </Td>
+      </Tr>
+    );
   }
 
   return (
