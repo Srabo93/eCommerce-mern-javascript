@@ -14,6 +14,7 @@ import {
   TableCaption,
   TableContainer,
   Heading,
+  Container,
 } from "@chakra-ui/react";
 import { CloseIcon, CheckIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
@@ -74,12 +75,12 @@ const UserListScreen = () => {
   }
 
   return (
-    <>
+    <Container maxW="full">
       <Heading py={3} as="h2" mr="auto">
         USERS
       </Heading>
-      <TableContainer maxW={["80vw", "90vw", "100vw"]}>
-        <Table variant="simple" size={["small", "medium"]}>
+      <TableContainer maxW="100vw">
+        <Table variant="simple" size="small">
           <TableCaption>All Users</TableCaption>
           <Thead>
             <Tr>
@@ -95,7 +96,7 @@ const UserListScreen = () => {
           <Tbody>{tBody}</Tbody>
         </Table>
       </TableContainer>
-    </>
+    </Container>
   );
 };
 
