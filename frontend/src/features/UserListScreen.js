@@ -58,7 +58,7 @@ const UserListScreen = () => {
           )}
         </Td>
         <Td p={2}>
-          <Link to={`/user/${user._id}/edit`}>
+          <Link to={`/admin/user/${user._id}/edit`}>
             <Button m={1}>
               <EditIcon />
             </Button>
