@@ -78,8 +78,8 @@ const UserListScreen = () => {
       <Heading py={3} as="h2" mr="auto">
         USERS
       </Heading>
-      <TableContainer maxW={["80vw", "90vw", "95vw"]}>
-        <Table variant="simple" size="small">
+      <TableContainer maxW={["80vw", "90vw", "100vw"]}>
+        <Table variant="simple" size={["small", "medium"]}>
           <TableCaption>All Users</TableCaption>
           <Thead>
             <Tr>

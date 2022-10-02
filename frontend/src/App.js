@@ -26,7 +26,7 @@ const App = () => {
     <>
       <Header />
       <Container
-        maxW={["90vw", "100vw", "90vw"]}
+        maxW={["90vw", "100vw", "80vw"]}
         as="main"
         py={3}
         centerContent

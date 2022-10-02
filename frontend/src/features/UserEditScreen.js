@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetUserByIdQuery,
   useUpdateUserByIdMutation,
@@ -18,6 +18,7 @@ import {
 
 const UserEditScreen = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [
     updateUser,
@@ -75,6 +76,7 @@ const UserEditScreen = () => {
   const submitHandler = async () => {
     try {
       await updateUser({ id, userCredentials });
+      navigate("/admin/userlist");
     } catch (error) {
       console.log(error);
     }
