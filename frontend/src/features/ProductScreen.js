@@ -87,10 +87,7 @@ const ProductScreen = () => {
             </Text>
           </HStack>
           {product.countInStock > 0 && (
-            <Select
-              // placeholder="Select Quantity"
-              onChange={(e) => setQty(e.target.value)}
-            >
+            <Select onChange={(e) => setQty(e.target.value)}>
               {[...Array(product.countInStock).keys()].map((count) => (
                 <option value={count + 1} key={count + 1}>
                   {count + 1}
