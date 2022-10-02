@@ -22,6 +22,7 @@ export const userApi = api.injectEndpoints({
         method: "PUT",
         body: credentials,
       }),
+      invalidatesTags: ["User"],
     }),
     updateUserById: builder.mutation({
       query: ({ id, ...credentials }) => ({
@@ -29,24 +30,28 @@ export const userApi = api.injectEndpoints({
         method: "PUT",
         body: credentials,
       }),
+      invalidatesTags: ["User"],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["User"],
     }),
     getUserById: builder.query({
       query: (id) => ({
         url: `/users/${id}`,
         method: "GET",
       }),
+      providesTags: () => [{ type: "User" }],
     }),
     getUsers: builder.query({
       query: () => ({
         url: "/users",
         method: "GET",
       }),
+      providesTags: () => [{ type: "User" }],
     }),
   }),
 });

@@ -13,7 +13,6 @@ const CartScreen = () => {
   const navigate = useNavigate();
 
   const checkOutHandler = () => {
-    console.log("Checkout");
     isAuthenticated ? navigate("/shipping") : navigate("/login");
   };
 
