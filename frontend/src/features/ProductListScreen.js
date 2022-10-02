@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectAllProducts } from "./services/products";
+import {
+  selectAllProducts,
+  useDeleteProductMutation,
+} from "./services/products";
 import {
   Button,
   Table,
@@ -19,10 +22,13 @@ import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 
 const ProductListScreen = () => {
   const products = useSelector(selectAllProducts);
+  const [deleteProduct] = useDeleteProductMutation();
 
   let tBody;
 
-  const deleteHandler = async (id) => {};
+  const deleteHandler = async (id) => {
+    await deleteProduct(id);
+  };
 
   tBody = products.map((product) => (
     <Tr key={product._id}>
@@ -51,7 +57,7 @@ const ProductListScreen = () => {
       </Heading>
       <TableContainer maxW="100vw">
         <Table variant="simple" size="small">
-          <TableCaption>All Users</TableCaption>
+          <TableCaption>All Products</TableCaption>
           <Thead>
             <Tr>
               <Th p={2}>ID</Th>

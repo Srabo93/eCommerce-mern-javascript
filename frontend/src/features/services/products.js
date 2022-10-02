@@ -15,15 +15,19 @@ export const productApi = api.injectEndpoints({
       transformResponse: (responseData) => {
         return productsAdapter.setAll(initialState, responseData);
       },
-      providesTags: (result, error, arg) => [
-        { type: "Product", id: "LIST" },
-        ...result.ids.map((id) => ({ type: "Product", id })),
-      ],
+      providesTags: () => [{ type: "Product" }],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "Product" }],
     }),
   }),
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetProductsQuery, useDeleteProductMutation } = productApi;
 
 export const selectProductsResult = productApi.endpoints.getProducts.select();
 
