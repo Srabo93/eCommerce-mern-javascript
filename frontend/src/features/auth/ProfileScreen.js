@@ -36,10 +36,12 @@ const ProfileScreen = () => {
   const [formErrors, setFormErrors] = useState("");
 
   let status;
+
   if (isLoading) {
     status = <Loader />;
-  } else if (isError) {
-    status = <Message m={3} error={error.data.message} />;
+  }
+  if (isError) {
+    status = <Message m={3} status="error" message={error.data.message} />;
   }
 
   const invalidInputs = [
@@ -51,11 +53,19 @@ const ProfileScreen = () => {
 
   const submitHandler = async () => {
     if (invalidInputs) {
-      setFormErrors(<Message m={3} error="Empty Inputfields are not valid" />);
+      setFormErrors(
+        <Message
+          m={3}
+          status="info"
+          message="Empty Inputfields are not valid"
+        />
+      );
       return;
     }
     if (userCredentials.password !== userCredentials.confirmPassword) {
-      setFormErrors(<Message m={3} error="Passwords do not match" />);
+      setFormErrors(
+        <Message m={3} status="info" message="Passwords do not match" />
+      );
     }
     try {
       await update(userCredentials).unwrap();

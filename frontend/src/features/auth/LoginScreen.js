@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../services/user";
-
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 
@@ -37,7 +36,7 @@ const LoginScreen = () => {
   if (isLoading) {
     status = <Loader />;
   } else if (isError) {
-    status = <Message m={3} error={error.data.message} />;
+    status = <Message m={3} status="error" message={error.data.message} />;
   }
 
   return (

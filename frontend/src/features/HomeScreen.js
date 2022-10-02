@@ -10,17 +10,21 @@ const HomeScreen = () => {
   const { isLoading, isSuccess, isError, error } = useGetProductsQuery();
 
   const products = useSelector(selectAllProducts);
+
   let content;
 
   if (isLoading) {
     content = <Loader />;
-  } else if (isSuccess) {
+  }
+  if (isSuccess) {
     content = products.map((product, i) => (
       <Product key={i} product={product} />
     ));
-  } else if (isError) {
-    content = <Message error={error} />;
   }
+  if (isError) {
+    content = <Message status="error" message={error} />;
+  }
+
   return (
     <>
       <Heading as="h1">Latest Products</Heading>

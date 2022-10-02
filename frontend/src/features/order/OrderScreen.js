@@ -38,10 +38,10 @@ const OrderScreen = () => {
     status = <Loader />;
   }
   if (isError) {
-    status = <Message m={3} error={error} />;
+    status = <Message m={3} status="error" message={error} />;
   }
   if (updateFailed) {
-    status = <Message m={3} error={updateError} />;
+    status = <Message m={3} status="error" message={updateError} />;
   }
 
   return (

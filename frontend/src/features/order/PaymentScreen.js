@@ -38,7 +38,7 @@ const PaymentScreen = () => {
       alignItems="start"
     >
       <CheckOutSteps step1 step2 step3 />
-      {formError ? <Message error={formError} /> : ""}
+      {formError ? <Message status="error" message={formError} /> : ""}
       <Heading mb={3} as="h2">
         Payment Method
       </Heading>

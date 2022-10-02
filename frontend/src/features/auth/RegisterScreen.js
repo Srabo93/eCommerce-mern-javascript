@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../services/user";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-
 import {
   FormControl,
   FormLabel,
@@ -27,8 +26,9 @@ const RegisterScreen = () => {
   let status;
   if (isLoading) {
     status = <Loader />;
-  } else if (isError) {
-    status = <Message m={3} error={error.data.message} />;
+  }
+  if (isError) {
+    status = <Message m={3} status="error" message={error.data.message} />;
   }
 
   const validInputs = [

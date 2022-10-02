@@ -6,12 +6,12 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 
-const Message = ({ error }) => {
+const Message = ({ status, message }) => {
   return (
-    <Alert status="error">
+    <Alert status={status}>
       <AlertIcon />
-      <AlertTitle>Something went wrong:</AlertTitle>
-      <AlertDescription>{error}</AlertDescription>
+      <AlertTitle>Message:</AlertTitle>
+      <AlertDescription>{message}</AlertDescription>
     </Alert>
   );
 };

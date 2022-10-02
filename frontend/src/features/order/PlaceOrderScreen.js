@@ -62,8 +62,9 @@ const PlaceOrderScreen = () => {
   let status;
   if (isLoading) {
     status = <Loader />;
-  } else if (isError) {
-    status = <Message m={3} error={error.data.message} />;
+  }
+  if (isError) {
+    status = <Message m={3} status="error" message={error.data.message} />;
   }
 
   return (
