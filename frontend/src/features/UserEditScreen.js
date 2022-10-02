@@ -21,10 +21,19 @@ const UserEditScreen = () => {
 
   const [
     updateUser,
-    { isSuccess: updateSuccess, isError: updateError, error: errorMessage },
+    {
+      isSuccess: updateSuccess,
+      isError: updateError,
+      error: updateErrorMessage,
+    },
   ] = useUpdateUserByIdMutation();
 
-  const { data: user, isLoading, isError, error } = useGetUserByIdQuery(id);
+  const {
+    data: user,
+    isLoading: userLoading,
+    isError: userError,
+    error: userErrorMessage,
+  } = useGetUserByIdQuery(id);
 
   const [userCredentials, setUserCredentials] = useState({
     name: "",
@@ -46,14 +55,17 @@ const UserEditScreen = () => {
 
   let status;
 
-  if (isLoading) {
+  if (userLoading) {
     status = <Loader />;
-  } else if (isError) {
-    status = <Message m={3} status="error" message={error.data.message} />;
+  }
+  if (userError) {
+    status = (
+      <Message m={3} status="error" message={userErrorMessage.data.message} />
+    );
   }
   if (updateError) {
     status = (
-      <Message m={3} status="error" message={errorMessage.data.message} />
+      <Message m={3} status="error" message={updateErrorMessage.data.message} />
     );
   }
   if (updateSuccess) {
