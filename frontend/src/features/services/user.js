@@ -23,10 +23,23 @@ export const userApi = api.injectEndpoints({
         body: credentials,
       }),
     }),
+    updateUserById: builder.mutation({
+      query: ({ id, ...credentials }) => ({
+        url: `/users/${id}`,
+        method: "PUT",
+        body: credentials,
+      }),
+    }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/${id}`,
         method: "DELETE",
+      }),
+    }),
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "GET",
       }),
     }),
     getUsers: builder.query({
@@ -40,8 +53,10 @@ export const userApi = api.injectEndpoints({
 
 export const {
   useGetUsersQuery,
+  useGetUserByIdQuery,
   useLoginMutation,
   useRegisterMutation,
   useDeleteUserMutation,
+  useUpdateUserByIdMutation,
   useUpdateUserCredentialsMutation,
 } = userApi;
