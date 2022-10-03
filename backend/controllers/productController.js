@@ -75,8 +75,7 @@ const createProduct = asyncHandler(async (req, res) => {
  * @access Private Admin
  */
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } =
-    req.body;
+  const { productInfo } = req.body;
 
   const product = await Product.findById(req.params.id);
 
@@ -85,13 +84,13 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 
-  product.name = name;
-  product.price = price;
-  product.description = description;
-  product.image = image;
-  product.brand = brand;
-  product.category = category;
-  product.countInStock = countInStock;
+  product.name = productInfo.name;
+  product.price = productInfo.price;
+  product.description = productInfo.description;
+  product.image = productInfo.image;
+  product.brand = productInfo.brand;
+  product.category = productInfo.category;
+  product.countInStock = productInfo.countInStock;
 
   const updatedProduct = await product.save();
   res.json(updatedProduct);

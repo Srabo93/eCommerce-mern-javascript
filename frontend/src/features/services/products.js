@@ -24,10 +24,31 @@ export const productApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Product" }],
     }),
+    createProduct: builder.mutation({
+      query: (credentials) => ({
+        url: "/products",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: [{ type: "Product" }],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ id, ...credentials }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        body: credentials,
+      }),
+      invalidatesTags: [{ type: "Product" }],
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useDeleteProductMutation } = productApi;
+export const {
+  useGetProductsQuery,
+  useUpdateProductMutation,
+  useCreateProductMutation,
+  useDeleteProductMutation,
+} = productApi;
 
 export const selectProductsResult = productApi.endpoints.getProducts.select();
 
