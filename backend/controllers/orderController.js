@@ -108,4 +108,31 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
   res.json(orders);
 });
-export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };
+
+/**
+ * ADMIN AREA
+ */
+
+/**
+ * @description Get All Orders
+ * @route GET /api/orders
+ * @access private
+ */
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find().populate("user", "id name");
+
+  if (!orders) {
+    res.status(404);
+    throw new Error("no orders found");
+  }
+
+  res.json(orders);
+});
+
+export {
+  addOrderItems,
+  getOrderById,
+  updateOrderToPaid,
+  getMyOrders,
+  getOrders,
+};
