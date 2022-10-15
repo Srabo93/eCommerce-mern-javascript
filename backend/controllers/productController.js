@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import fs from "fs";
 import Product from "../models/productModel.js";
 
 /**
@@ -43,7 +44,15 @@ const deleteProduct = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Product not found");
   }
+
   await product.remove();
+
+  fs.unlink(`frontend/public${product.image}`, function (err) {
+    if (err) throw err;
+
+    console.log("File deleted!");
+  });
+
   res.json({ message: "Product deleted successfully" });
 });
 
