@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, CloseIcon, CheckIcon } from "@chakra-ui/icons";
 import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 const OrdersListScreen = () => {
   const { data: orders, isLoading, isError, error } = useGetOrdersQuery();
@@ -54,6 +55,7 @@ const OrdersListScreen = () => {
         ORDERS
       </Heading>
       {isLoading && <Loader />}
+      {isError && <Message status="error" message={error.data.message} />}
       <TableContainer maxW="100vw">
         <Table variant="simple" size="small">
           <TableCaption>All Orders</TableCaption>
