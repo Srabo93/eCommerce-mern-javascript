@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   selectProductById,
   useUpdateProductMutation,
+  useUploadImageMutation,
 } from "./services/products";
 import Message from "../components/Message";
 import {
@@ -14,13 +15,16 @@ import {
   Button,
   Box,
   Textarea,
+  CircularProgress,
 } from "@chakra-ui/react";
 
 const ProductEditScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const product = useSelector((state) => selectProductById(state, id));
+
+  const [uploadImage, { data: uploadResponse, isLoading: uploadLoading }] =
+    useUploadImageMutation();
 
   const [
     updateProduct,
@@ -31,6 +35,7 @@ const ProductEditScreen = () => {
     },
   ] = useUpdateProductMutation();
 
+  const [imgUpload, setImgUpload] = useState(null);
   const [productInfo, setProductInfo] = useState({
     name: "",
     price: 0,
@@ -40,6 +45,13 @@ const ProductEditScreen = () => {
     category: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (uploadResponse !== undefined) {
+      setProductInfo({ ...productInfo, image: uploadResponse.path });
+    }
+    return () => {};
+  }, [uploadResponse]);
 
   useEffect(() => {
     if (product) {
@@ -67,6 +79,18 @@ const ProductEditScreen = () => {
   if (updateSuccess) {
     status = <Message m={3} status="success" message={"User got updated!"} />;
   }
+
+  const imageUploadHandler = async (e) => {
+    e.preventDefault();
+    const form = new FormData();
+    form.append("uploadedImg", imgUpload);
+
+    try {
+      await uploadImage(form);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const submitHandler = async () => {
     try {
@@ -106,17 +130,31 @@ const ProductEditScreen = () => {
               setProductInfo({ ...productInfo, price: e.target.value })
             }
           />
-
+          {uploadLoading && <CircularProgress isIndeterminate />}
           <FormLabel id="image">Image</FormLabel>
-          <Input
-            id="image"
-            mb={2}
-            type="text"
-            value={productInfo.image}
-            onChange={(e) =>
-              setProductInfo({ ...productInfo, image: e.target.value })
-            }
-          />
+          <Box mb={2}>
+            <Input
+              id="image"
+              mb={2}
+              type="text"
+              value={productInfo.image}
+              onChange={(e) =>
+                setProductInfo({ ...productInfo, image: e.target.value })
+              }
+            />
+            <form
+              encType="multipart/from-data"
+              method="post"
+              onSubmit={imageUploadHandler}
+            >
+              <input
+                type="file"
+                name="uploadedImg"
+                onChange={(e) => setImgUpload(e.target.files[0])}
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </Box>
 
           <FormLabel id="brand">Brand</FormLabel>
           <Input

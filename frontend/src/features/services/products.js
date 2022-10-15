@@ -40,6 +40,14 @@ export const productApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Product" }],
     }),
+    uploadImage: builder.mutation({
+      query: (image) => ({
+        url: "/upload",
+        method: "POST",
+        body: image,
+      }),
+      invalidatesTags: [{ type: "Product" }],
+    }),
   }),
 });
 
@@ -48,6 +56,7 @@ export const {
   useUpdateProductMutation,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useUploadImageMutation,
 } = productApi;
 
 export const selectProductsResult = productApi.endpoints.getProducts.select();
