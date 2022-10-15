@@ -151,7 +151,7 @@ const PlaceOrderScreen = () => {
               flexDir="row"
               justifyContent="space-between"
             >
-              <Text>Shipping: $</Text>
+              <Text>Shipping: </Text>
               <Text>${shipping}</Text>
             </Box>
             <Divider />
@@ -162,7 +162,7 @@ const PlaceOrderScreen = () => {
               flexDir="row"
               justifyContent="space-between"
             >
-              <Text>Tax: $</Text>
+              <Text>Tax: </Text>
               <Text>${tax}</Text>
             </Box>
             <Divider />
@@ -173,7 +173,7 @@ const PlaceOrderScreen = () => {
               flexDir="row"
               justifyContent="space-between"
             >
-              <Text>Total: $</Text>
+              <Text>Total: </Text>
               <Text>${total}</Text>
             </Box>
             <Divider />

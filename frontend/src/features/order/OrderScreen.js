@@ -126,7 +126,7 @@ const OrderScreen = () => {
                     />
                     <Text px={2}>{product.name}</Text>
                     <Text px={2}>
-                      {product.qty} X {product.price} = $
+                      {product.qty} X ${product.price} = $
                       {parseFloat(product.qty * product.price).toFixed(2)}
                     </Text>
                   </Box>
@@ -162,7 +162,7 @@ const OrderScreen = () => {
                 flexDir="row"
                 justifyContent="space-between"
               >
-                <Text>Shipping: $</Text>
+                <Text>Shipping: </Text>
                 <Text>${order.shippingPrice}</Text>
               </Box>
               <Divider />
@@ -173,7 +173,7 @@ const OrderScreen = () => {
                 flexDir="row"
                 justifyContent="space-between"
               >
-                <Text>Tax: $</Text>
+                <Text>Tax: </Text>
                 <Text>${order.taxPrice}</Text>
               </Box>
               <Divider />
@@ -184,7 +184,7 @@ const OrderScreen = () => {
                 flexDir="row"
                 justifyContent="space-between"
               >
-                <Text>Total: $</Text>
+                <Text>Total: </Text>
                 <Text>${order.totalPrice}</Text>
               </Box>
               <Divider />
