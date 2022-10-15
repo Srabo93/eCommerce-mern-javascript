@@ -2,7 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeCart } from "../cart/cartSlice";
-import { useGetOrderQuery, usePayOrderMutation } from "../services/orders";
+import { useSelector } from "react-redux";
+import { selectAuthenticatedUser } from "../auth/authSlice";
+import {
+  useGetOrderQuery,
+  usePayOrderMutation,
+  useDeliverOrderMutation,
+} from "../services/orders";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -17,13 +23,19 @@ import {
   Box,
   Alert,
   AlertIcon,
+  Button,
 } from "@chakra-ui/react";
 
 const OrderScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { isAuthenticated, user, isAdmin } = useSelector(
+    selectAuthenticatedUser
+  );
+
   const {
     data: order,
+    refetch,
     isSuccess,
     isLoading,
     isError,
@@ -32,6 +44,14 @@ const OrderScreen = () => {
 
   const [payOrder, { isError: updateFailed, error: updateError }] =
     usePayOrderMutation();
+
+  const [deliverOrder, { isSuccess: deliverySuccess }] =
+    useDeliverOrderMutation();
+
+  const deilverOrderHandler = async () => {
+    await deliverOrder(id);
+    refetch();
+  };
 
   let status;
   if (isLoading) {
@@ -75,11 +95,11 @@ const OrderScreen = () => {
               {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
               {order.shippingAddress.country}
             </Text>
-            {order.isShipped ? (
+            {order.isDelivered ? (
               <Alert status="success">
                 {" "}
                 <AlertIcon />
-                Paid on {order.shippedAt}
+                Deliverd on {order.deliveredAt.substring(0, 10)}
               </Alert>
             ) : (
               <Alert status="error">
@@ -188,6 +208,18 @@ const OrderScreen = () => {
                 <Text>${order.totalPrice}</Text>
               </Box>
               <Divider />
+              {isAdmin && (
+                <Button
+                  w="full"
+                  onClick={deilverOrderHandler}
+                  disabled={order.isDelivered ? true : false}
+                >
+                  Mark as Delivered
+                </Button>
+              )}
+              {deliverySuccess && (
+                <Message status="success" message="Delivery Success" />
+              )}
             </VStack>
             {!order.isPaid && (
               <PayPalButtons

@@ -17,9 +17,16 @@ export const ordersApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Order"],
     }),
+    deliverOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/orders/${orderId}/deliver`,
+        method: "PUT",
+      }),
+      providesTags: [{ type: "Order" }],
+    }),
     getAllOrders: builder.query({
       query: () => "/orders/myorders",
-      providesTags: () => [{ type: "AllOrders" }],
+      providesTags: [{ type: "AllOrders" }],
     }),
     getOrders: builder.query({
       query: () => "/orders",
@@ -37,5 +44,6 @@ export const {
   useGetOrdersQuery,
   useGetOrderQuery,
   usePayOrderMutation,
+  useDeliverOrderMutation,
   useGetAllOrdersQuery,
 } = ordersApi;
