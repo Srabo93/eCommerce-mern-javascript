@@ -34,7 +34,8 @@ const getProductById = asyncHandler(async (req, res) => {
  * @access private
  */
 const createReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
+  console.log(req.body);
+  const { rating, comment } = req.body.reviewData;
 
   const product = await Product.findById(req.params.id);
 
@@ -51,7 +52,6 @@ const createReview = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Product not found");
   }
-
   const review = {
     name: req.user.name,
     rating: Number(rating),
