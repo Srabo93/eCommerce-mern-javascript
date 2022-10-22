@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProductById } from "../features/services/products";
+import {
+  selectProductById,
+  useCreateReviewMutation,
+} from "../features/services/products";
+import { selectAuthenticatedUser } from "../features/auth/authSlice";
 import { addItem } from "./cart/cartSlice";
+import Message from "../components/Message";
+import Review from "../components/Review";
+import CreateReview from "../components/CreateReview";
 import {
   Button,
   Heading,
@@ -21,16 +28,29 @@ import { StarIcon } from "@chakra-ui/icons";
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
-  let params = useParams();
+
+  let { id } = useParams();
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
-  const product = useSelector((state) => selectProductById(state, params.id));
+  const { isAuthenticated, user } = useSelector(selectAuthenticatedUser);
+
+  const product = useSelector((state) => selectProductById(state, id));
+
+  const [createReview, { isError, error }] = useCreateReviewMutation();
+
+  const addReviewHandler = async (reviewData) => {
+    try {
+      await createReview({ id, reviewData });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const addToCartHandler = (product) => {
     let subtotal = Number(product.price * qty);
     dispatch(addItem({ product, qty, subtotal }));
-    navigate(`/cart/${params.id}`);
+    navigate(`/cart/${id}`);
   };
 
   return (
@@ -106,6 +126,22 @@ const ProductScreen = () => {
           </Button>
         </Box>
       </SimpleGrid>
+      <Box my={5}>
+        <Heading as="h3">Reviews</Heading>
+        {product.reviews.length === 0 && (
+          <Message status="info" message="No Reviews" />
+        )}
+        {product.reviews.map((review) => (
+          <Review key={review._id} review={review} />
+        ))}
+      </Box>
+      {isAuthenticated && (
+        <Box>
+          {isError && <Message message={error.data.message} status="error" />}
+          <Heading>Write a Review</Heading>
+          <CreateReview onAddReviewChange={addReviewHandler} />
+        </Box>
+      )}
     </Container>
   );
 };

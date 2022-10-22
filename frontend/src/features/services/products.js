@@ -48,6 +48,14 @@ export const productApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Product" }],
     }),
+    createReview: builder.mutation({
+      query: ({ id, ...credentials }) => ({
+        url: `/products/634ad95d4bb84c557b143a8b/reviews`,
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: [{ type: "Product" }],
+    }),
   }),
 });
 
@@ -56,6 +64,7 @@ export const {
   useUpdateProductMutation,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useCreateReviewMutation,
   useUploadImageMutation,
 } = productApi;
 
