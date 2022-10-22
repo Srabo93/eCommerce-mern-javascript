@@ -152,7 +152,7 @@ const ProductEditScreen = () => {
                 name="uploadedImg"
                 onChange={(e) => setImgUpload(e.target.files[0])}
               />
-              <button type="submit">Submit</button>
+              <button type="submit">Upload</button>
             </form>
           </Box>
 
