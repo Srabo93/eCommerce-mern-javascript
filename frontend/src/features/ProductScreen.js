@@ -24,7 +24,7 @@ import {
   Container,
   Select,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import ReviewStars from "../components/ReviewStars";
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
@@ -71,16 +71,7 @@ const ProductScreen = () => {
             alignItems="flex-end"
             justifyContent="center"
           >
-            {Array(5)
-              .fill("")
-              .map((_, i) => (
-                <StarIcon
-                  as="div"
-                  key={i}
-                  boxSize={[3, 4, 5]}
-                  color={i < product.rating ? "teal.500" : "gray.300"}
-                />
-              ))}
+            <ReviewStars rating={product.rating} />
             <Text noOfLines={1} as="p" fontSize={["sm", "md", "lg"]}>
               {product.numReviews} reviews
             </Text>
