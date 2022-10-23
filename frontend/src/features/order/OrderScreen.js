@@ -12,15 +12,16 @@ import {
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import ShippingDetails from "../../components/ShippingDetails";
+import OrderedItemsList from "../../components/OrderedItemsList";
+import OrderSummary from "../../components/OrderSummary";
 import {
   Heading,
   Text,
   Grid,
   GridItem,
   Divider,
-  Image,
   VStack,
-  Box,
   Alert,
   AlertIcon,
   Button,
@@ -29,9 +30,7 @@ import {
 const OrderScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { isAuthenticated, user, isAdmin } = useSelector(
-    selectAuthenticatedUser
-  );
+  const { isAdmin } = useSelector(selectAuthenticatedUser);
 
   const {
     data: order,
@@ -88,25 +87,7 @@ const OrderScreen = () => {
             <Heading as="h2" size="lg" my={3}>
               Shipping
             </Heading>
-            <Text mb={3}>Name: {order.user.name}</Text>
-            <Text mb={3}>Email: {order.user.email}</Text>
-            <Text mb={3}>
-              Address: {order.shippingAddress.address}{" "}
-              {order.shippingAddress.city} {order.shippingAddress.postalCode}{" "}
-              {order.shippingAddress.country}
-            </Text>
-            {order.isDelivered ? (
-              <Alert status="success">
-                {" "}
-                <AlertIcon />
-                Deliverd on {order.deliveredAt.substring(0, 10)}
-              </Alert>
-            ) : (
-              <Alert status="error">
-                <AlertIcon />
-                Not Delivered
-              </Alert>
-            )}
+            <ShippingDetails order={order} />
             <Divider />
             <Heading as="h2" size="lg" my={3}>
               Payment Method
@@ -129,30 +110,7 @@ const OrderScreen = () => {
               Ordered Items
             </Heading>
             <VStack>
-              {order.orderItems.map((product) => (
-                <Box
-                  w="full"
-                  key={product._id}
-                  display="flex"
-                  flexDir="column"
-                  alignItems="start"
-                >
-                  <Box display="flex" alignItems="center" my={3}>
-                    <Image
-                      boxSize="50px"
-                      objectFit="cover"
-                      src={product.image}
-                      px={2}
-                    />
-                    <Text px={2}>{product.name}</Text>
-                    <Text px={2}>
-                      {product.qty} X ${product.price} = $
-                      {parseFloat(product.qty * product.price).toFixed(2)}
-                    </Text>
-                  </Box>
-                  <Divider />
-                </Box>
-              ))}
+              <OrderedItemsList order={order} />
             </VStack>
           </GridItem>
           <GridItem
@@ -165,48 +123,7 @@ const OrderScreen = () => {
                 Order Summary
               </Heading>
               <Divider />
-              <Box
-                w="full"
-                display="flex"
-                flexDir="row"
-                justifyContent="space-between"
-              >
-                <Text>Items: </Text>
-                <Text>${order.totalPrice - order.taxPrice}</Text>
-              </Box>
-              <Divider />
-
-              <Box
-                w="full"
-                display="flex"
-                flexDir="row"
-                justifyContent="space-between"
-              >
-                <Text>Shipping: </Text>
-                <Text>${order.shippingPrice}</Text>
-              </Box>
-              <Divider />
-
-              <Box
-                w="full"
-                display="flex"
-                flexDir="row"
-                justifyContent="space-between"
-              >
-                <Text>Tax: </Text>
-                <Text>${order.taxPrice}</Text>
-              </Box>
-              <Divider />
-
-              <Box
-                w="full"
-                display="flex"
-                flexDir="row"
-                justifyContent="space-between"
-              >
-                <Text>Total: </Text>
-                <Text>${order.totalPrice}</Text>
-              </Box>
+              <OrderSummary order={order} />
               <Divider />
               {isAdmin && (
                 <Button
@@ -246,7 +163,7 @@ const OrderScreen = () => {
           </GridItem>
         </Grid>
       ) : (
-        ""
+        "Something Went Wrong"
       )}
     </>
   );
