@@ -51,7 +51,7 @@ const ProductEditScreen = () => {
       setProductInfo({ ...productInfo, image: uploadResponse.path });
     }
     return () => {};
-  }, [uploadResponse]);
+  }, [uploadResponse, productInfo]);
 
   useEffect(() => {
     if (product) {

@@ -33,7 +33,7 @@ const ProductScreen = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
-  const { isAuthenticated, user } = useSelector(selectAuthenticatedUser);
+  const { isAuthenticated } = useSelector(selectAuthenticatedUser);
 
   const product = useSelector((state) => selectProductById(state, id));
 
