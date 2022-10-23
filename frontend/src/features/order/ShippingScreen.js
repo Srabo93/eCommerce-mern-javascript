@@ -66,10 +66,8 @@ const ShippingScreen = () => {
             setShippingInfo({ ...shippingInfo, address: e.target.value })
           }
         />
-        {formErrors ? (
+        {formErrors && (
           <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
-        ) : (
-          ""
         )}
         <FormLabel id="city">Enter City</FormLabel>
         <Input
@@ -82,10 +80,8 @@ const ShippingScreen = () => {
             setShippingInfo({ ...shippingInfo, city: e.target.value })
           }
         />
-        {formErrors ? (
+        {formErrors && (
           <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
-        ) : (
-          ""
         )}
         <FormLabel id="postalCode">Postal Code</FormLabel>
         <Input
@@ -101,10 +97,8 @@ const ShippingScreen = () => {
             })
           }
         />
-        {formErrors ? (
+        {formErrors && (
           <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
-        ) : (
-          ""
         )}
         <FormLabel id="country">Country</FormLabel>
         <Input
@@ -120,10 +114,8 @@ const ShippingScreen = () => {
             })
           }
         />
-        {formErrors ? (
+        {formErrors && (
           <FormHelperText pb={3}>Field cant be empty!</FormHelperText>
-        ) : (
-          ""
         )}
         <Button w="full" mb={3} type="submit" onClick={submitHandler}>
           Continue
