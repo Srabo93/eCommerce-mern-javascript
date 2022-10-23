@@ -6,7 +6,7 @@ import { StarIcon } from "@chakra-ui/icons";
 const Product = ({ product }) => {
   return (
     <Box
-      maxW="full"
+      maxW={["90vw", "90vw", "70vw"]}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
