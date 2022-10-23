@@ -15,7 +15,7 @@ export const productApi = api.injectEndpoints({
       transformResponse: (responseData) => {
         return productsAdapter.setAll(initialState, responseData);
       },
-      providesTags: () => [{ type: "Product" }],
+      providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
@@ -56,11 +56,21 @@ export const productApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Product" }],
     }),
+    searchProduct: builder.query({
+      query: (keyword) => ({
+        url: `/products?keyword=${keyword}`,
+        transformResponse: (responseData) => {
+          return productsAdapter.setAll(initialState, responseData);
+        },
+      }),
+      providesTags: (result, error, id) => [{ type: "Product", id }],
+    }),
   }),
 });
 
 export const {
   useGetProductsQuery,
+  useSearchProductQuery,
   useUpdateProductMutation,
   useCreateProductMutation,
   useDeleteProductMutation,

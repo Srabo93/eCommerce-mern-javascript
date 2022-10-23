@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuthenticatedUser } from "../features/auth/authSlice";
 import { logout } from "../features/auth/authSlice";
+import Searchbox from "./Searchbox";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -90,13 +91,19 @@ const Header = () => {
 
   return (
     <Container maxW="full" as="header" p={5} bg="blackAlpha.800" color="white">
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex
+        display="flex"
+        flexDir={["column", "row"]}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Breadcrumb separator="">
           <BreadcrumbItem fontWeight="semibold" fontSize={["lg", "xl", "2xl"]}>
             <BreadcrumbLink as={Link} to="/">
               <Text>PROSHOP</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
+          <Searchbox />
         </Breadcrumb>
         <Breadcrumb separator="">
           <BreadcrumbItem>
