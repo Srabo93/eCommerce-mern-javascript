@@ -43,7 +43,6 @@ const getProductById = asyncHandler(async (req, res) => {
  * @access private
  */
 const createReview = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { rating, comment } = req.body.reviewData;
 
   const product = await Product.findById(req.params.id);
@@ -97,13 +96,16 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
   await product.remove();
 
-  fs.unlink(`frontend/public${product.image}`, function (err) {
-    if (err) throw err;
+  if (product.image === "/images/placeholder.jpg") {
+    res.json({ message: "Product deleted successfully" });
+  } else {
+    fs.unlink(`frontend/public${product.image}`, function (err) {
+      if (err) throw err;
 
-    console.log("File deleted!");
-  });
-
-  res.json({ message: "Product deleted successfully" });
+      console.log("File deleted!");
+    });
+    res.json({ message: "Product deleted successfully" });
+  }
 });
 
 /**
@@ -115,7 +117,7 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     user: req.user._id,
     name: "Sample Product",
-    image: "/images/sample-product.jpg",
+    image: "/images/placeholder.jpg",
     brand: "Sample Brand",
     category: "Sample Category",
     description: "Sample Description",

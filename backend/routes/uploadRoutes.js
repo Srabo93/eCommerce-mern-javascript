@@ -1,6 +1,8 @@
 import path from "path";
 import express from "express";
+import Product from "../models/productModel.js";
 import multer from "multer";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
@@ -35,11 +37,28 @@ const upload = multer({
   },
 });
 
-router.post("/", upload.single("uploadedImg"), (req, res) => {
-  res.json({
-    status: 201,
-    path: `/${req.file.path.replace(/frontend\/public\//g, "")}`,
-  });
-});
+router.post(
+  "/",
+  upload.single("uploadedImg"),
+  asyncHandler(async (req, res) => {
+    const { id } = req.body;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    product.image = `/${req.file.path.replace(/frontend\/public\//g, "")}`;
+
+    await product.save();
+
+    res.json({
+      status: 201,
+      path: `/${req.file.path.replace(/frontend\/public\//g, "")}`,
+    });
+  })
+);
 
 export default router;
