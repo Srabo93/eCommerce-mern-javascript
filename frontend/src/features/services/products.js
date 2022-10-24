@@ -1,20 +1,19 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { api } from "./api";
-
-const productsAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.updatedAt.localeCompare(a.updatedAt),
-  selectId: (response) => response._id,
-});
-
-const initialState = productsAdapter.getInitialState();
 
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
-      transformResponse: (responseData) => {
-        return productsAdapter.setAll(initialState, responseData);
-      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Product", id })),
+              { type: "Product", id: "LIST" },
+            ]
+          : [{ type: "Product", id: "LIST" }],
+    }),
+    getProduct: builder.query({
+      query: (id) => `products/${id}`,
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
     deleteProduct: builder.mutation({
@@ -30,7 +29,7 @@ export const productApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: [{ type: "Product" }],
+      invalidatesTags: [{ type: "Product", id: "LIST" }],
     }),
     updateProduct: builder.mutation({
       query: ({ id, ...credentials }) => ({
@@ -46,11 +45,11 @@ export const productApi = api.injectEndpoints({
         method: "POST",
         body: image,
       }),
-      invalidatesTags: [{ type: "Product" }],
+      invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
     }),
     createReview: builder.mutation({
       query: ({ id, ...credentials }) => ({
-        url: `/products/634ad95d4bb84c557b143a8b/reviews`,
+        url: `/products/${id}/reviews`,
         method: "POST",
         body: credentials,
       }),
@@ -59,9 +58,6 @@ export const productApi = api.injectEndpoints({
     searchProduct: builder.query({
       query: (keyword) => ({
         url: `/products?keyword=${keyword}`,
-        transformResponse: (responseData) => {
-          return productsAdapter.setAll(initialState, responseData);
-        },
       }),
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
@@ -70,6 +66,7 @@ export const productApi = api.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetProductQuery,
   useSearchProductQuery,
   useUpdateProductMutation,
   useCreateProductMutation,
@@ -77,18 +74,3 @@ export const {
   useCreateReviewMutation,
   useUploadImageMutation,
 } = productApi;
-
-export const selectProductsResult = productApi.endpoints.getProducts.select();
-
-const selectProductsData = createSelector(
-  selectProductsResult,
-  (productsResult) => productsResult.data
-);
-
-export const {
-  selectAll: selectAllProducts,
-  selectById: selectProductById,
-  selectIds: selectProductIds,
-} = productsAdapter.getSelectors(
-  (state) => selectProductsData(state) ?? initialState
-);

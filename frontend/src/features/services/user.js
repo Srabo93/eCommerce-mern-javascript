@@ -44,14 +44,14 @@ export const userApi = api.injectEndpoints({
         url: `/users/${id}`,
         method: "GET",
       }),
-      providesTags: () => [{ type: "User" }],
+      providesTags: [{ type: "User" }],
     }),
     getUsers: builder.query({
       query: () => ({
         url: "/users",
         method: "GET",
       }),
-      providesTags: () => [{ type: "User" }],
+      providesTags: [{ type: "User" }],
     }),
   }),
 });
