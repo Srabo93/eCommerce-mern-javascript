@@ -138,7 +138,7 @@ const OrderScreen = () => {
                 <Message status="success" message="Delivery Success" />
               )}
             </VStack>
-            {!order.isPaid && (
+            {!order.isPaid && !isAdmin && (
               <PayPalButtons
                 createOrder={(data, actions) => {
                   return actions.order.create({
