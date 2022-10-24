@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import {
-  selectAllProducts,
   useGetProductsQuery,
   useSearchProductQuery,
 } from "./services/products";
@@ -14,11 +12,15 @@ import { useParams } from "react-router-dom";
 const HomeScreen = () => {
   let { keyword } = useParams();
 
-  const { data: queriedProduct } = useSearchProductQuery(keyword);
+  const { data: searchedProduct } = useSearchProductQuery(keyword);
 
-  const { isLoading, isSuccess, isError, error } = useGetProductsQuery();
-
-  const products = useSelector(selectAllProducts);
+  const {
+    data: products,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProductsQuery();
 
   let content;
 
@@ -34,7 +36,7 @@ const HomeScreen = () => {
     content = <Message status="error" message={error} />;
   }
   if (keyword !== undefined) {
-    content = queriedProduct?.map((product, i) => (
+    content = searchedProduct?.map((product, i) => (
       <Product key={i} product={product} />
     ));
   }

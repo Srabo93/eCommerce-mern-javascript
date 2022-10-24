@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
-  selectAllProducts,
   useDeleteProductMutation,
   useCreateProductMutation,
+  useGetProductsQuery,
 } from "./services/products";
 import {
   Button,
@@ -24,7 +23,7 @@ import Loader from "../components/Loader";
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
-  const products = useSelector(selectAllProducts);
+  const { data: products } = useGetProductsQuery();
   const [deleteProduct] = useDeleteProductMutation();
   const [createProduct, { isLoading, data }] = useCreateProductMutation();
 
@@ -34,7 +33,7 @@ const ProductListScreen = () => {
     }
 
     return () => {};
-  }, [data]);
+  }, [data, navigate]);
 
   const deleteHandler = async (id) => {
     await deleteProduct(id);
@@ -46,7 +45,7 @@ const ProductListScreen = () => {
 
   let tBody;
 
-  tBody = products.map((product) => (
+  tBody = products?.map((product) => (
     <Tr key={product._id}>
       <Td p={2}>{product._id}</Td>
       <Td p={2}>{product.name}</Td>

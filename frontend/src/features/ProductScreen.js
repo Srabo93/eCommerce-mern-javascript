@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectProductById,
   useCreateReviewMutation,
+  useGetProductQuery,
 } from "../features/services/products";
 import { selectAuthenticatedUser } from "../features/auth/authSlice";
 import { addItem } from "./cart/cartSlice";
@@ -35,9 +35,9 @@ const ProductScreen = () => {
 
   const { isAuthenticated } = useSelector(selectAuthenticatedUser);
 
-  const product = useSelector((state) => selectProductById(state, id));
+  const { data: product } = useGetProductQuery(id);
 
-  const [createReview, { isError, error }] = useCreateReviewMutation();
+  const [createReview, { isError, error }] = useCreateReviewMutation(id);
 
   const addReviewHandler = async (reviewData) => {
     try {
@@ -61,45 +61,45 @@ const ProductScreen = () => {
         </Button>
       </Link>
       <SimpleGrid mt={5} columns={{ base: 1, lg: 3 }} spacing={[2, 5, 10]}>
-        <Image src={product.image} alt={product.image} />
+        <Image src={product?.image} alt={product?.image} />
         <VStack alignItems="flex-start">
           <Heading as="h3" fontSize={["md", "xl", "2xl"]}>
-            {product.name}
+            {product?.name}
           </Heading>
           <Box
             direction={["column", "column"]}
             alignItems="flex-end"
             justifyContent="center"
           >
-            <ReviewStars rating={product.rating} />
+            <ReviewStars rating={product?.rating} />
             <Text noOfLines={1} as="p" fontSize={["sm", "md", "lg"]}>
-              {product.numReviews} reviews
+              {product?.numReviews} reviews
             </Text>
           </Box>
           <Divider />
           <Flex flexDir="column">
             <Text fontWeight="bold" pb={7}>
-              Price: ${product.price}
+              Price: ${product?.price}
             </Text>
-            <Text>{product.description}</Text>
+            <Text>{product?.description}</Text>
           </Flex>
         </VStack>
         <Box textAlign="center">
           <Divider mt={[8, 2]} />
           <HStack justifyContent="space-between" p={2} my={3}>
             <Text as="p">Price:</Text>
-            <Text as="p">${product.price}</Text>
+            <Text as="p">${product?.price}</Text>
           </HStack>
           <Divider />
           <HStack justifyContent="space-between" p={2} my={3}>
             <Text as="p">Status:</Text>
             <Text as="p">
-              {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
+              {product?.countInStock > 0 ? "In Stock" : "Out of Stock"}
             </Text>
           </HStack>
-          {product.countInStock > 0 && (
+          {product?.countInStock > 0 && (
             <Select onChange={(e) => setQty(e.target.value)}>
-              {[...Array(product.countInStock).keys()].map((count) => (
+              {[...Array(product?.countInStock).keys()].map((count) => (
                 <option value={count + 1} key={count + 1}>
                   {count + 1}
                 </option>
@@ -110,7 +110,7 @@ const ProductScreen = () => {
           <Button
             w="full"
             mt={3}
-            disabled={product.countInStock === 0}
+            disabled={product?.countInStock === 0}
             onClick={() => addToCartHandler(product)}
           >
             Add To Cart
@@ -119,10 +119,10 @@ const ProductScreen = () => {
       </SimpleGrid>
       <Box my={5}>
         <Heading as="h3">Reviews</Heading>
-        {product.reviews.length === 0 && (
+        {product?.reviews.length === 0 && (
           <Message status="info" message="No Reviews" />
         )}
-        {product.reviews.map((review) => (
+        {product?.reviews.map((review) => (
           <Review key={review._id} review={review} />
         ))}
       </Box>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
-  selectProductById,
+  useGetProductQuery,
   useUpdateProductMutation,
   useUploadImageMutation,
 } from "./services/products";
@@ -21,10 +20,9 @@ import {
 const ProductEditScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = useSelector((state) => selectProductById(state, id));
+  const { data: product, isSuccess } = useGetProductQuery(id);
 
-  const [uploadImage, { data: uploadResponse, isLoading: uploadLoading }] =
-    useUploadImageMutation();
+  const [uploadImage, { isLoading: uploadLoading }] = useUploadImageMutation();
 
   const [
     updateProduct,
@@ -47,14 +45,7 @@ const ProductEditScreen = () => {
   });
 
   useEffect(() => {
-    if (uploadResponse !== undefined) {
-      setProductInfo({ ...productInfo, image: uploadResponse.path });
-    }
-    return () => {};
-  }, [uploadResponse, productInfo]);
-
-  useEffect(() => {
-    if (product) {
+    if (isSuccess) {
       setProductInfo({
         name: product.name,
         price: product.price,
@@ -67,7 +58,7 @@ const ProductEditScreen = () => {
     }
 
     return () => {};
-  }, [product]);
+  }, [isSuccess]);
 
   let status;
 
@@ -84,6 +75,7 @@ const ProductEditScreen = () => {
     e.preventDefault();
     const form = new FormData();
     form.append("uploadedImg", imgUpload);
+    form.append("id", id);
 
     try {
       await uploadImage(form);
@@ -92,7 +84,8 @@ const ProductEditScreen = () => {
     }
   };
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
     try {
       await updateProduct({ id, productInfo });
       navigate("/admin/productlist");
@@ -137,16 +130,15 @@ const ProductEditScreen = () => {
               id="image"
               mb={2}
               type="text"
+              disabled
               value={productInfo.image}
-              onChange={(e) =>
-                setProductInfo({ ...productInfo, image: e.target.value })
-              }
             />
             <form
-              encType="multipart/from-data"
+              encType="multipart/form-data"
               method="post"
               onSubmit={imageUploadHandler}
             >
+              <input type="text" hidden defaultValue={id} />
               <input
                 type="file"
                 name="uploadedImg"
@@ -198,7 +190,12 @@ const ProductEditScreen = () => {
             }
           />
 
-          <Button w="full" mb={3} type="submit" onClick={submitHandler}>
+          <Button
+            w="full"
+            mb={3}
+            type="submit"
+            onClick={(e) => submitHandler(e)}
+          >
             Update Product
           </Button>
         </FormControl>
