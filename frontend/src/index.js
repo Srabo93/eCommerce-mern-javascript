@@ -18,7 +18,6 @@ import "../src/theme/styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-store.dispatch(api.endpoints.getProducts.initiate());
 store.dispatch(isLoggedIn());
 store.dispatch(loadCart());
 
