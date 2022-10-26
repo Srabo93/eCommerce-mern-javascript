@@ -14,10 +14,22 @@ const getProducts = asyncHandler(async (req, res) => {
       $options: "i",
     },
   };
-  if (req.query.keyword === undefined) {
-    keyword = {};
+
+  let query = {
+    limit: 3,
+  };
+
+  req.query.page !== undefined ? (query.page = req.query.page) : undefined;
+  req.query.pagination !== undefined ? (query.pagination = false) : undefined;
+
+  let products = await Product.paginate({}, query);
+
+  if (req.query.keyword !== undefined) {
+    products = await Product.find(keyword);
+    res.json(products);
+    return;
   }
-  const products = await Product.find(keyword);
+
   res.json(products);
 });
 

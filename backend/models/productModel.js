@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const reviewSchema = mongoose.Schema(
   {
@@ -65,7 +66,30 @@ const productSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+productSchema.plugin(mongoosePaginate);
 
 const Product = mongoose.model("Product", productSchema);
+const options = {
+  page: 1,
+  collation: {
+    locale: "en",
+  },
+  pagination: true,
+};
 
+Product.paginate({}, options, function (err, result) {
+  if (err) {
+    console.log(err);
+  }
+  result.docs;
+  result.totalDocs = 100;
+  result.limit = 2;
+  result.page = 1;
+  result.totalPages = 10;
+  result.hasNextPage = true;
+  result.nextPage = 2;
+  result.hasPrevPage = false;
+  result.prevPage = null;
+  result.pagingCounter = 1;
+});
 export default Product;
