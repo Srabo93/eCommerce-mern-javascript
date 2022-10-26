@@ -3,14 +3,24 @@ import { api } from "./api";
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => "/products",
+      query: (pagination) => `/products?pagination=${pagination}`,
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Product", id })),
+              ...result?.docs.map(({ id }) => ({ type: "Product", id })),
               { type: "Product", id: "LIST" },
             ]
           : [{ type: "Product", id: "LIST" }],
+    }),
+    listProducts: builder.query({
+      query: (page = 1) => `/products?page=${page}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.docs?.map(({ id }) => ({ type: "Product", id })),
+              { type: "Product", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "Product", id: "PARTIAL-LIST" }],
     }),
     getProduct: builder.query({
       query: (id) => `products/${id}`,
@@ -21,7 +31,10 @@ export const productApi = api.injectEndpoints({
         url: `/products/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "Product" }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Product", id: "LIST" },
+        { type: "Product", id: "PARTIAL-LIST" },
+      ],
     }),
     createProduct: builder.mutation({
       query: (credentials) => ({
@@ -29,7 +42,10 @@ export const productApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: [{ type: "Product", id: "LIST" }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Product", id: "LIST" },
+        { type: "Product", id: "PARTIAL-LIST" },
+      ],
     }),
     updateProduct: builder.mutation({
       query: ({ id, ...credentials }) => ({
@@ -37,7 +53,10 @@ export const productApi = api.injectEndpoints({
         method: "PUT",
         body: credentials,
       }),
-      invalidatesTags: [{ type: "Product" }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Product", id: "LIST" },
+        { type: "Product", id: "PARTIAL-LIST" },
+      ],
     }),
     uploadImage: builder.mutation({
       query: (image) => ({
@@ -53,19 +72,23 @@ export const productApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: [{ type: "Product" }],
+      invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
     }),
     searchProduct: builder.query({
       query: (keyword) => ({
         url: `/products?keyword=${keyword}`,
       }),
-      providesTags: (result, error, id) => [{ type: "Product", id }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Product", id },
+        { type: "Product", id: "PARTIAL-LIST" },
+      ],
     }),
   }),
 });
 
 export const {
   useGetProductsQuery,
+  useListProductsQuery,
   useGetProductQuery,
   useSearchProductQuery,
   useUpdateProductMutation,

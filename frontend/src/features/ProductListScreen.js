@@ -23,7 +23,7 @@ import Loader from "../components/Loader";
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
-  const { data: products } = useGetProductsQuery();
+  const { data: products } = useGetProductsQuery(1);
   const [deleteProduct] = useDeleteProductMutation();
   const [createProduct, { isLoading, data }] = useCreateProductMutation();
 
@@ -45,7 +45,7 @@ const ProductListScreen = () => {
 
   let tBody;
 
-  tBody = products?.map((product) => (
+  tBody = products?.docs?.map((product) => (
     <Tr key={product._id}>
       <Td p={2}>{product._id}</Td>
       <Td p={2}>{product.name}</Td>

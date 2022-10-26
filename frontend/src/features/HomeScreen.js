@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
-  useGetProductsQuery,
+  useListProductsQuery,
   useSearchProductQuery,
 } from "./services/products";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useParams } from "react-router-dom";
+import Pagination from "../components/Pagination";
 
 const HomeScreen = () => {
   let { keyword } = useParams();
-
+  const [currentPage, setCurrentPage] = useState(1);
   const { data: searchedProduct } = useSearchProductQuery(keyword);
 
   const {
@@ -20,7 +21,11 @@ const HomeScreen = () => {
     isSuccess,
     isError,
     error,
-  } = useGetProductsQuery();
+  } = useListProductsQuery(currentPage);
+
+  const paginationHandler = (page) => {
+    setCurrentPage(page);
+  };
 
   let content;
 
@@ -28,7 +33,7 @@ const HomeScreen = () => {
     content = <Loader />;
   }
   if (isSuccess) {
-    content = products.map((product, i) => (
+    content = products.docs.map((product, i) => (
       <Product key={i} product={product} />
     ));
   }
@@ -47,6 +52,7 @@ const HomeScreen = () => {
       <SimpleGrid columns={[2, null, 3]} spacing={2}>
         {content}
       </SimpleGrid>
+      <Pagination onPaginationHandler={paginationHandler} products={products} />
     </>
   );
 };
