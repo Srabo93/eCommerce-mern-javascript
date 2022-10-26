@@ -1,5 +1,6 @@
 import path from "path";
 import express from "express";
+import fs from "fs";
 import Product from "../models/productModel.js";
 import multer from "multer";
 import asyncHandler from "express-async-handler";
@@ -50,13 +51,17 @@ router.post(
       throw new Error("Product not found");
     }
 
-    product.image = `/${req.file.path.replace(/frontend\/public\//g, "")}`;
+    let url = req.file.path
+      .replaceAll("\\", "/")
+      .replace("frontend/public", "");
+
+    product.image = url;
 
     await product.save();
 
     res.json({
       status: 201,
-      path: `/${req.file.path.replace(/frontend\/public\//g, "")}`,
+      path: url,
     });
   })
 );
