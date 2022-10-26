@@ -9,6 +9,7 @@ import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
+import Meta from "../components/Meta";
 
 const HomeScreen = () => {
   let { keyword } = useParams();
@@ -48,6 +49,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta />
       <Heading as="h1">Latest Products</Heading>
       <SimpleGrid columns={[2, null, 3]} spacing={2}>
         {content}
