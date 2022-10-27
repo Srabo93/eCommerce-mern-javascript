@@ -149,18 +149,16 @@ const createProduct = asyncHandler(async (req, res) => {
  */
 const updateProduct = asyncHandler(async (req, res) => {
   const { productInfo } = req.body;
-
   const product = await Product.findById(req.params.id);
 
   if (!product) {
     res.status(404);
     throw new Error("Product not found");
   }
-
   product.name = productInfo.name;
   product.price = productInfo.price;
   product.description = productInfo.description;
-  product.image = productInfo.image;
+  product.image = product.image;
   product.brand = productInfo.brand;
   product.category = productInfo.category;
   product.countInStock = productInfo.countInStock;
