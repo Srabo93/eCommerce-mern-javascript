@@ -24,9 +24,6 @@ import { Container } from "@chakra-ui/react";
 
 const App = () => {
   const { isAuthenticated, isAdmin } = useSelector(selectAuthenticatedUser);
-  /**
-   * TODO: FILE UPLOAD IS A MESS / REWORK NECCESSARY
-   */
 
   return (
     <>

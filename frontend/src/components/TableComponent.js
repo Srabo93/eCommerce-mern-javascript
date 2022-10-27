@@ -30,7 +30,7 @@ const TableComponent = ({ data }) => {
   } else if (isSuccess) {
     tBody = orders.map((order) => (
       <Tr key={order._id}>
-        <Td p={2}>{order._id}</Td>
+        <Td p={2}>{order._id.substring(0, 5)}</Td>
         <Td p={2}>{order.createdAt.substring(0, 10)}</Td>
         <Td p={2} isNumeric>
           ${order.totalPrice}
@@ -50,9 +50,9 @@ const TableComponent = ({ data }) => {
           )}
         </Td>
         <Td p={2}>
-          <Button>
-            <Link href={`orders/${order._id}`}>Details</Link>
-          </Button>
+          <Link href={`orders/${order._id}`}>
+            <Button>Details</Button>
+          </Link>
         </Td>
       </Tr>
     ));
