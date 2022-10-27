@@ -8,6 +8,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      providesTags: ["User"],
     }),
     register: builder.mutation({
       query: (credentials) => ({
@@ -15,6 +16,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      providesTags: ["User"],
     }),
     updateUserCredentials: builder.mutation({
       query: (credentials) => ({
@@ -44,14 +46,14 @@ export const userApi = api.injectEndpoints({
         url: `/users/${id}`,
         method: "GET",
       }),
-      providesTags: [{ type: "User" }],
+      providesTags: ["User"],
     }),
     getUsers: builder.query({
       query: () => ({
         url: "/users",
         method: "GET",
       }),
-      providesTags: [{ type: "User" }],
+      providesTags: ["User"],
     }),
   }),
 });
