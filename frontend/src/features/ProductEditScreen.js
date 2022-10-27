@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetProductQuery,
   useUpdateProductMutation,
-  useUploadImageMutation,
 } from "./services/products";
 import Message from "../components/Message";
+import ImageUpload from "../components/ImageUpload";
 import {
   FormControl,
   FormLabel,
@@ -14,15 +14,13 @@ import {
   Button,
   Box,
   Textarea,
-  CircularProgress,
+  Stack,
 } from "@chakra-ui/react";
 
 const ProductEditScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: product, isSuccess } = useGetProductQuery(id);
-
-  const [uploadImage, { isLoading: uploadLoading }] = useUploadImageMutation();
 
   const [
     updateProduct,
@@ -33,7 +31,6 @@ const ProductEditScreen = () => {
     },
   ] = useUpdateProductMutation();
 
-  const [imgUpload, setImgUpload] = useState(null);
   const [productInfo, setProductInfo] = useState({
     name: "",
     price: 0,
@@ -71,21 +68,9 @@ const ProductEditScreen = () => {
     status = <Message m={3} status="success" message={"User got updated!"} />;
   }
 
-  const imageUploadHandler = async (e) => {
-    e.preventDefault();
-    const form = new FormData();
-    form.append("uploadedImg", imgUpload);
-    form.append("id", id);
-
-    try {
-      await uploadImage(form);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const submitHandler = async (e) => {
     e.preventDefault();
+
     try {
       await updateProduct({ id, productInfo });
       navigate("/admin/productlist");
@@ -95,13 +80,14 @@ const ProductEditScreen = () => {
   };
 
   return (
-    <Box display="flex" flexDir="column" p={3} w={["100vw", "lg"]}>
-      <Box>
-        {status}
+    <Box>
+      {status}
+      <Heading mb={3} as="h2">
+        Edit Product
+      </Heading>
+      <Stack direction={["column", "column", "row"]} spacing="24px">
+        <ImageUpload productInfo={productInfo} id={id} />
         <FormControl isRequired>
-          <Heading mb={3} as="h2">
-            Edit Product
-          </Heading>
           <FormLabel id="name">Name</FormLabel>
           <Input
             id="name"
@@ -123,7 +109,6 @@ const ProductEditScreen = () => {
               setProductInfo({ ...productInfo, price: e.target.value })
             }
           />
-          {uploadLoading && <CircularProgress isIndeterminate />}
           <FormLabel id="image">Image</FormLabel>
           <Box mb={2}>
             <Input
@@ -133,19 +118,6 @@ const ProductEditScreen = () => {
               disabled
               value={productInfo.image}
             />
-            <form
-              encType="multipart/form-data"
-              method="post"
-              onSubmit={imageUploadHandler}
-            >
-              <input type="text" hidden defaultValue={id} />
-              <input
-                type="file"
-                name="uploadedImg"
-                onChange={(e) => setImgUpload(e.target.files[0])}
-              />
-              <button type="submit">Upload</button>
-            </form>
           </Box>
 
           <FormLabel id="brand">Brand</FormLabel>
@@ -199,7 +171,7 @@ const ProductEditScreen = () => {
             Update Product
           </Button>
         </FormControl>
-      </Box>
+      </Stack>
     </Box>
   );
 };
