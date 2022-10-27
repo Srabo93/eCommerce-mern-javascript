@@ -25,7 +25,10 @@ export const ordersApi = api.injectEndpoints({
     }),
     getOrder: builder.query({
       query: (id) => `/orders/${id}`,
-      providesTags: (result, error, id) => [{ type: "Order", id }],
+      providesTags: (id) => [
+        { type: "Order", id: id },
+        { type: "Order", id: "LIST" },
+      ],
     }),
     createOrder: builder.mutation({
       query: (credentials) => ({
@@ -41,14 +44,14 @@ export const ordersApi = api.injectEndpoints({
         method: "PUT",
         body: rest,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Order", id }],
+      invalidatesTags: ({ id }) => [{ type: "Order", id: id }],
     }),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `/orders/${orderId}/deliver`,
         method: "PUT",
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Order", id }],
+      invalidatesTags: ({ id }) => [{ type: "Order", id: id }],
     }),
   }),
 });
