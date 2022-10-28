@@ -2,6 +2,12 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+/*Security*/
+import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
+import hpp from "hpp";
+import helmet from "helmet";
+import xss from "xss-clean";
 import morgan from "morgan";
 /*Routes */
 import productRoutes from "./routes/productRoutes.js";
@@ -25,6 +31,11 @@ connectDB();
  * Initialize Express App
  */
 const app = express();
+/**
+ * Security Packages
+ */
+app.use(helmet());
+app.use(xss());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -35,6 +46,19 @@ if (process.env.NODE_ENV === "development") {
  */
 app.use(cors());
 app.use(express.json());
+
+/**
+ *HPP Security, req sanitizing, rate limiting
+ */
+app.use(hpp());
+app.use(mongoSanitize());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 /**
  * Mount Routes
  */
