@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   IconButton,
   Box,
@@ -12,17 +13,21 @@ const Pagination = ({ products, onPaginationHandler }) => {
   return (
     <Box display="flex" mt={3} justifyContent="center" alignContent="center">
       {products?.hasPrevPage && (
-        <IconButton
-          size="sm"
-          mx={2}
-          icon={<ArrowLeftIcon />}
-          onClick={() => onPaginationHandler(products?.prevPage)}
-        />
+        <Link to={`/page/${products.prevPage}`}>
+          <IconButton
+            size="sm"
+            mx={2}
+            icon={<ArrowLeftIcon />}
+            onClick={() => onPaginationHandler(products?.prevPage)}
+          />
+        </Link>
       )}
       <Breadcrumb separator="">
         {[...Array(products?.totalPages).keys()].map((page) => (
           <BreadcrumbItem key={page} px={2}>
             <BreadcrumbLink
+              as={Link}
+              to={`/page/${page + 1}`}
               color={page + 1 === products?.page ? "teal" : "teal.400"}
               onClick={() => onPaginationHandler(page + 1)}
               fontSize="xl"
@@ -33,12 +38,14 @@ const Pagination = ({ products, onPaginationHandler }) => {
         ))}
       </Breadcrumb>
       {products?.hasNextPage && (
-        <IconButton
-          size="sm"
-          mx={2}
-          icon={<ArrowRightIcon />}
-          onClick={() => onPaginationHandler(products?.nextPage)}
-        />
+        <Link to={`/page/${products.nextPage}`}>
+          <IconButton
+            size="sm"
+            mx={2}
+            icon={<ArrowRightIcon />}
+            onClick={() => onPaginationHandler(products?.nextPage)}
+          />
+        </Link>
       )}
     </Box>
   );
