@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   useListProductsQuery,
   useSearchProductQuery,
 } from "./services/products";
-import { Heading, SimpleGrid } from "@chakra-ui/react";
+import { Heading, SimpleGrid, Button, Box } from "@chakra-ui/react";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -13,6 +13,7 @@ import Meta from "../components/Meta";
 
 const HomeScreen = () => {
   let { keyword } = useParams();
+
   const [currentPage, setCurrentPage] = useState(1);
   const { data: searchedProduct } = useSearchProductQuery(keyword);
 
@@ -51,6 +52,15 @@ const HomeScreen = () => {
     <>
       <Meta />
       <Heading as="h1">Latest Products</Heading>
+      {keyword && (
+        <Box textAlign="left" w="full">
+          <Link to="/">
+            <Button variant="ghost" color="teal">
+              Go Back
+            </Button>
+          </Link>
+        </Box>
+      )}
       <SimpleGrid columns={[2, null, 3]} spacing={2}>
         {content}
       </SimpleGrid>
