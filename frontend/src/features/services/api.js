@@ -5,7 +5,7 @@ export const api = createApi({
   refetchOnFocus: true,
   refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://proshop-23tk.onrender.com//api",
+    baseUrl: "https://proshop-23tk.onrender.com/api",
     prepareHeaders: (headers) => {
       const token = JSON.parse(localStorage.getItem("authorization"));
 
