@@ -163,7 +163,7 @@ const OrderScreen = () => {
           </GridItem>
         </Grid>
       ) : (
-        "Something Went Wrong"
+        <Loader />
       )}
     </>
   );

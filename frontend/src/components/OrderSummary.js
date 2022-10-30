@@ -6,7 +6,7 @@ const OrderSummary = ({ order }) => {
     <>
       <Box w="full" display="flex" flexDir="row" justifyContent="space-between">
         <Text>Items: </Text>
-        <Text>${order.totalPrice - order.taxPrice}</Text>
+        <Text>${(order.totalPrice - order.taxPrice).toFixed(2)}</Text>
       </Box>
       <Divider />
 
