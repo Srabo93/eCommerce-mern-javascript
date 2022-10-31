@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import Message from "./Message";
 import {
@@ -11,7 +12,6 @@ import {
   Td,
   TableCaption,
   TableContainer,
-  Link,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 
