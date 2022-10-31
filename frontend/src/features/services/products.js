@@ -20,7 +20,7 @@ export const productApi = api.injectEndpoints({
           : [{ type: "Product", id: "PAGINATED-LIST" }],
     }),
     getProduct: builder.query({
-      query: (id) => `products/${id}`,
+      query: (id) => `/products/${id}`,
       providesTags: (id) => [
         { type: "Product", id: id },
         { type: "Product", id: "LIST" },
