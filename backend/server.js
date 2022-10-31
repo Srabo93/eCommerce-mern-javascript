@@ -1,5 +1,5 @@
 import express from "express";
-import path from "path";
+import path, { resolve } from "path";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 /*Security*/
@@ -67,25 +67,17 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
 
-const __dirname = path.resolve();
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("frontend/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html")); // relative path
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running");
-  });
-}
-
 /**
  * Custom Error Handler
  */
 app.use(notFound);
 app.use(errorHandler);
+
+if (process.env.NODE_ENV !== "production") {
+  app.get("/", (req, res) => {
+    res.send("API is running");
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
