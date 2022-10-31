@@ -50,7 +50,7 @@ const TableComponent = ({ data }) => {
           )}
         </Td>
         <Td p={2}>
-          <Link href={`orders/${order._id}`}>
+          <Link to={`orders/${order._id}`}>
             <Button>Details</Button>
           </Link>
         </Td>
