@@ -23,3 +23,16 @@ Functionality of the app:
 - Admin Area for maintaining Products & Users
 
 Demo: https://proshop-9112.onrender.com/
+
+## Run Development
+Rename frontend/.env.env to frontend/.env adjust the file values
+
+Rename backend/config/.env.env to backend/config/.env adjust the file values
+
+
+``` 
+npm i
+npm run dev
+
+If you want to seed your MongoDB
+npm run data:import
