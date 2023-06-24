@@ -1,7 +1,5 @@
 # Proshop E-Commerce
 
-Building a basic MERN Stack E-Commerce Project
-
 ## Technology
 
 - [React as Frontend](https://reactjs.org/)
