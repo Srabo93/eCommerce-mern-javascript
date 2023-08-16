@@ -30,4 +30,22 @@ describe("ReviewStars Component", () => {
     });
     expect(sampleRating).toBe(filledReviewStars);
   });
+
+  it("throws an error if the number is negative", () => {
+    const renderNegativeRating = () => {
+      render(<ReviewStars rating={-2} />);
+    };
+
+    expect(renderNegativeRating).toThrowError(
+      "Rating must be a positive integer"
+    );
+  });
+
+  it("throws an error if the number is larger than 5", () => {
+    const renderLargerThan5 = () => {
+      render(<ReviewStars rating={23} />);
+    };
+
+    expect(renderLargerThan5).toThrowError("Rating cant be larger than 5");
+  });
 });

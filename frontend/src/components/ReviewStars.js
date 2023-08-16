@@ -2,6 +2,12 @@ import React from "react";
 import { StarIcon } from "@chakra-ui/icons";
 
 const ReviewStars = ({ rating }) => {
+  if (rating < 0) {
+    throw new Error("Rating must be a positive integer");
+  }
+  if (rating > 5) {
+    throw new Error("Rating cant be larger than 5");
+  }
   return (
     <>
       {Array(5)
