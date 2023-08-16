@@ -6,7 +6,6 @@ import Searchbox from "../../components/Searchbox";
 
 // Mocking the useNavigate hook
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
 }));
 
