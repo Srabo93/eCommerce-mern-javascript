@@ -9,6 +9,7 @@ const ReviewStars = ({ rating }) => {
         .map((_, i) => (
           <StarIcon
             as="div"
+            role="review stars"
             key={i}
             boxSize={[3, 4, 5]}
             color={i < rating ? "teal.500" : "gray.300"}
