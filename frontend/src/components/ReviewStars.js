@@ -13,6 +13,7 @@ const ReviewStars = ({ rating }) => {
             key={i}
             boxSize={[3, 4, 5]}
             color={i < rating ? "teal.500" : "gray.300"}
+            data-filled={i < rating ? true : false}
           />
         ))}
     </>

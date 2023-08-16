@@ -29,4 +29,18 @@ describe("Review Component", () => {
     expect(separator).toBeInTheDocument();
     expect(separator).toHaveAttribute("aria-orientation", "horizontal");
   });
+
+  it("renders the correct amount of filled stars", () => {
+    render(<Review review={sampleReview} />);
+
+    let reviewStars = screen.getAllByRole("review");
+    let countedStars = 0;
+
+    reviewStars.forEach((star) => {
+      if (star.getAttribute("data-filled") === "true") {
+        countedStars++;
+      }
+    });
+    expect(countedStars).toBe(sampleReview.rating);
+  });
 });
