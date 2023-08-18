@@ -34,6 +34,8 @@ const Product = ({ product }) => {
                 .map((_, i) => (
                   <StarIcon
                     key={i}
+                    role="review stars"
+                    data-filled={i < product.rating ? true : false}
                     color={i < product.rating ? "teal.500" : "gray.300"}
                   />
                 ))}
