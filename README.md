@@ -20,7 +20,7 @@ Functionality of the app:
 - Payment Method via Paypal
 - Admin Area for maintaining Products & Users
 
-Demo: https://proshop-9112.onrender.com/
+Demo: https://proshop.srabodev.de/
 
 ## Run Development
 Rename frontend/.env.env to frontend/.env adjust the file values
