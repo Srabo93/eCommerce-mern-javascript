@@ -1,5 +1,5 @@
 import express from "express";
-import path, { resolve } from "path";
+import path from "path";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 /*Security*/
@@ -47,6 +47,9 @@ if (process.env.NODE_ENV === "development") {
 app.use(cors());
 app.use(express.json());
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
 /**
  *HPP Security, req sanitizing, rate limiting
  */
@@ -66,24 +69,25 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
-
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
 /**
  * Custom Error Handler
  */
 app.use(notFound);
 app.use(errorHandler);
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
   app.get("/", (req, res) => {
     res.send("API is running");
   });
 }
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(
   PORT,
   console.log(
-    `Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
-  )
+    `Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold,
+  ),
 );
