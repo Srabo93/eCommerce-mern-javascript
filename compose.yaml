@@ -17,3 +17,10 @@ services:
       - "27017"
     volumes:
       - ./db:/data/db
+  frontend:
+    restart: always
+    container_name: mern_frontend
+    build:
+      context: ./frontend/
+    ports:
+      - 3000:3000

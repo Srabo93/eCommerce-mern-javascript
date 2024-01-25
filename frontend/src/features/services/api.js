@@ -5,7 +5,7 @@ export const api = createApi({
   refetchOnFocus: true,
   refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://proshop.srabodev.de/api",
     prepareHeaders: (headers) => {
       const token = JSON.parse(localStorage.getItem("authorization"));
 
