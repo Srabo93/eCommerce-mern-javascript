@@ -1,5 +1,8 @@
 # Proshop E-Commerce
 
+The goal of this project was to gather experience with the mern stack. Very interesting were the Redux Toolkit/Query library for managing state,
+Chakra UI to quickly build the Frontend and MongoDB for the database. 
+
 ## Technology
 
 - [React as Frontend](https://reactjs.org/)
@@ -17,7 +20,7 @@ Functionality of the app:
 - Authentication
 - CRUD functionalities (Users/Products)
 - Comments
-- Payment Method via Paypal
+- Payment Method via Paypal (Sandbox is activated, full payment flow possible with paypal developer accounts)
 - Admin Area for maintaining Products & Users
 
 Demo: https://proshop.srabodev.de/
