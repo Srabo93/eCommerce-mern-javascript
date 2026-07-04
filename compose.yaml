@@ -1,26 +1,51 @@
-version: "3"
 services:
+  mongodb:
+    image: docker.io/library/mongo:8
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongodb:/data/db
+
+  minio:
+    image: docker.io/minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: change-me-please
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./data/minio:/data
+
   server:
-    restart: always
-    container_name: mern_server
     build:
       context: .
+      dockerfile: packages/api/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/app
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: admin
+      S3_SECRET_KEY: change-me-please
+      S3_BUCKET: uploads
     ports:
-      - 5000:5000
+      - "3000:3000"
     volumes:
-      - ./:/app
-  mongodb:
-    container_name: mern_mongo
-    restart: always
-    image: mongo:4.2.0
-    expose:
-      - "27017"
-    volumes:
-      - ./db:/data/db
-  frontend:
-    restart: always
-    container_name: mern_frontend
-    build:
-      context: ./frontend/
+      - .:/app
+      - /app/node_modules
+      - /app/packages/api/node_modules
+    depends_on:
+      - mongodb
+      - minio
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit
+    restart: unless-stopped
     ports:
-      - 3000:3000
+      - 1025:1025
+      - 8025:8025
