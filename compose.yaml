@@ -5,7 +5,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./data/mongodb:/data/db
+      - ./data/mongodb:/data/db:Z
 
   minio:
     image: docker.io/minio/minio:latest
@@ -18,34 +18,11 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ./data/minio:/data
-
-  server:
-    build:
-      context: .
-      dockerfile: packages/api/Dockerfile
-    restart: unless-stopped
-    environment:
-      NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/app
-      JWT_SECRET: keyboardcat
-      JWT_REFRESH_SECRET: keyboarddog
-      S3_ENDPOINT: http://minio:9000
-      S3_ACCESS_KEY: admin
-      S3_SECRET_KEY: change-me-please
-      S3_BUCKET: uploads
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-    depends_on:
-      - mongodb
-      - minio
-      - mailpit
+      - ./data/minio:/data:Z
 
   mailpit:
     image: axllent/mailpit
     restart: unless-stopped
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
