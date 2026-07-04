@@ -5,6 +5,7 @@ node_modules/
 .pnp.js
 db/
 dist/
+data/
 
 #testing
 /coverage

@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.8",
-    "hono": "^4.12.27"
+    "bcryptjs": "^3.0.3",
+    "hono": "^4.12.27",
+    "mongoose": "^9.7.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
