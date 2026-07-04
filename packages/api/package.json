@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.8",
+    "@hono/zod-validator": "^0.8.0",
     "bcryptjs": "^3.0.3",
     "hono": "^4.12.27",
-    "mongoose": "^9.7.3"
+    "mongoose": "^9.7.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
