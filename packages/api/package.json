@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p ./tsconfig.build.json",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "data:import": "tsx src/seed.ts",
+    "data:delete": "tsx src/seed.ts -d"
   },
   "dependencies": {
     "@hono/node-server": "^2.0.8",

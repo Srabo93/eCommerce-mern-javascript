@@ -51,7 +51,12 @@ docker compose down           # stop everything
 ├── packages/                 # New monorepo (pnpm workspace)
 │   ├── api/                  # Hono + TypeScript backend
 │   │   ├── src/index.ts      # Server entry point
-│   │   └── src/routes/       # Route stubs (order.ts, product.ts, user.ts)
+│   │   ├── src/routes/       # Route handlers (auth.ts, order.ts, product.ts, user.ts)
+│   │   ├── src/models/       # Mongoose models (User.ts, Product.ts, Order.ts)
+│   │   ├── src/middleware/    # Custom middleware (auth.ts)
+│   │   ├── src/config/       # Config (database.ts)
+│   │   ├── src/data/         # Seed data (users.ts, products.ts)
+│   │   └── src/seed.ts       # Seeder script
 │   └── ui/                   # Frontend placeholder (TBD framework)
 ├── legacy/                   # Complete working app (moved here)
 │   ├── backend/              # Express + Mongoose
@@ -177,4 +182,5 @@ describe("Component", () => {
 When working on a specific technology, first load the corresponding reference for patterns and conventions:
 
 - `references/hono.md` — Hono framework reference with links to official LLM docs, current usage, key conventions, and available middleware/helpers
+- `references/mongoose.md` — Mongoose ODM reference with TypeScript patterns, schema conventions, and Mongoose 9 best practices
 - `references/pnpm.md` — pnpm CLI commands, workspace/filtering reference, Docker and Podman patterns, monorepo best practices

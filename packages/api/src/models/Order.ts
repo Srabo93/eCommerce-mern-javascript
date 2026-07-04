@@ -1,48 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-export interface IOrderItem {
-  name: string
-  qty: number
-  image: string
-  price: number
-  product: mongoose.Types.ObjectId
-}
-
-export interface IShippingAddress {
-  address: string
-  city: string
-  postalCode: string
-  country: string
-}
-
-export interface IPaymentResult {
-  id: string
-  status: string
-  updateTime: string
-  emailAddress: string
-}
-
-export interface IOrder {
-  user: mongoose.Types.ObjectId
-  orderItems: IOrderItem[]
-  shippingAddress: IShippingAddress
-  paymentMethod: string
-  paymentResult: IPaymentResult
-  taxPrice: number
-  shippingPrice: number
-  totalPrice: number
-  isPaid: boolean
-  paidAt: Date | null
-  isDelivered: boolean
-  deliveredAt: Date | null
-}
-
-const orderSchema = new mongoose.Schema<IOrder>(
+const orderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     orderItems: [
       {
@@ -53,7 +16,7 @@ const orderSchema = new mongoose.Schema<IOrder>(
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
-          ref: 'Product',
+          ref: "Product",
         },
       },
     ],
@@ -108,6 +71,6 @@ const orderSchema = new mongoose.Schema<IOrder>(
     },
   },
   { timestamps: true },
-)
+);
 
-export const Order = mongoose.model<IOrder>('Order', orderSchema)
+export const Order = mongoose.model("Order", orderSchema);
