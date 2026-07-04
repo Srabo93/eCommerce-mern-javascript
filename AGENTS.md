@@ -177,3 +177,4 @@ describe("Component", () => {
 When working on a specific technology, first load the corresponding reference for patterns and conventions:
 
 - `references/hono.md` — Hono framework reference with links to official LLM docs, current usage, key conventions, and available middleware/helpers
+- `references/pnpm.md` — pnpm CLI commands, workspace/filtering reference, Docker and Podman patterns, monorepo best practices
