@@ -5,7 +5,7 @@ import { logger } from "hono/logger";
 import { connectDB } from "./config/database.js";
 import { auth } from "./routes/auth.js";
 import { users } from "./routes/users.js";
-import { order } from "./routes/order.js";
+import { orders } from "./routes/orders.js";
 import { products } from "./routes/products.js";
 
 await connectDB();
@@ -19,7 +19,7 @@ const api = app.basePath("/api");
 
 api.route("/auth", auth);
 api.route("/users", users);
-api.route("/orders", order);
+api.route("/orders", orders);
 api.route("/products", products);
 
 const server = serve({ fetch: app.fetch, port: 3000 }, (info) => {
