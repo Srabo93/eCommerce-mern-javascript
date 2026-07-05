@@ -60,17 +60,13 @@ users.put(
     let updatedUser;
     try {
       await User.findByIdAndUpdate(id, payload, {
-        id: 1,
-        name: 1,
-        email: 1,
-        createdAt: 1,
-      });
-
-      updatedUser = await User.findById(id, {
-        id: 1,
-        name: 1,
-        email: 1,
-        createdAt: 1,
+        fields: {
+          id: 1,
+          name: 1,
+          email: 1,
+          createdAt: 1,
+        },
+        new: true,
       });
     } catch (error) {
       console.log(error);
