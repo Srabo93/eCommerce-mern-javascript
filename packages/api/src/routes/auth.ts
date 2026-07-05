@@ -46,7 +46,7 @@ auth.post("/register", zValidator("json", registerSchema), async (c) => {
   let user;
 
   try {
-    user = await User.create({ name, email, password, isAdmin: false });
+    user = await User.create({ name, email, password, role: "user" });
   } catch (error) {
     console.log(error);
   }
@@ -58,7 +58,7 @@ auth.post("/register", zValidator("json", registerSchema), async (c) => {
   const accessToken = await sign(
     {
       id: user.id,
-      isAdmin: user.isAdmin,
+      role: user.role,
       exp: Math.floor(Date.now() / 1000) + 60 * 15,
     },
     ACCESS_SECRET,
@@ -85,7 +85,7 @@ auth.post("/register", zValidator("json", registerSchema), async (c) => {
     refreshToken,
     user: {
       id: user.id,
-      isAdmin: user.isAdmin,
+      role: user.role,
     },
   });
 });
@@ -106,7 +106,7 @@ auth.post("/login", zValidator("json", loginSchema), async (c) => {
   const accessToken = await sign(
     {
       id: foundUser.id,
-      isAdmin: foundUser.isAdmin,
+      role: foundUser.role,
       exp: Math.floor(Date.now() / 1000) + 60 * 15,
     },
     ACCESS_SECRET,
@@ -133,7 +133,7 @@ auth.post("/login", zValidator("json", loginSchema), async (c) => {
     refreshToken,
     user: {
       id: foundUser.id,
-      isAdmin: foundUser.isAdmin,
+      role: foundUser.role,
     },
   });
 });
@@ -166,7 +166,7 @@ auth.post("/refresh", zValidator("json", refreshTokenBodySchema), async (c) => {
   const accessToken = await sign(
     {
       id: user.id,
-      isAdmin: user.isAdmin,
+      role: user.role,
       exp: Math.floor(Date.now() / 1000) + 60 * 15,
     },
     ACCESS_SECRET,

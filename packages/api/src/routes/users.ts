@@ -1,27 +1,30 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
-import type { JwtVariables } from "hono/jwt";
 import { User } from "../models/User.js";
 import { zValidator } from "@hono/zod-validator";
 import z from "zod";
 import { HTTPException } from "hono/http-exception";
-
-type Variables = JwtVariables<{ id: string; isAdmin: boolean; exp: number }>;
+import { authorize } from "../middleware/auth.js";
+import { defineAbilitiesFor } from "@proshop/ability";
+import type { Variables } from "../types.ts";
 
 const updateSchema = z.object({
   name: z.string().optional(),
   email: z.email().optional(),
-  isAdmin: z.boolean().optional(),
+  role: z.enum(["admin", "user"]).optional(),
 });
 
 export const users = new Hono<{ Variables: Variables }>();
 
 users.use("/*", jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" }));
 
-users.get("/", async (c) => {
+users.get("/", authorize("manage", "User"), async (c) => {
   let users;
   try {
-    users = await User.find({}, { id: 1, email: 1, name: 1, createdAt: 1 });
+    users = await User.find(
+      {},
+      { id: 1, email: 1, name: 1, role: 1, createdAt: 1 },
+    );
   } catch (error) {
     console.log(error);
   }
@@ -30,6 +33,7 @@ users.get("/", async (c) => {
 
 users.get(
   "/:id",
+  authorize("manage", "User"),
   zValidator("param", z.object({ id: z.string() })),
   async (c) => {
     const { id } = c.req.valid("param");
@@ -40,6 +44,7 @@ users.get(
         id: 1,
         email: 1,
         name: 1,
+        role: 1,
         createdAt: 1,
       });
     } catch (error) {
@@ -57,13 +62,24 @@ users.put(
     const { id } = c.req.valid("param");
     const payload = c.req.valid("json");
 
+    const jwtPayload = c.get("jwtPayload");
+    const ability = defineAbilitiesFor({
+      id: jwtPayload.id,
+      role: jwtPayload.role,
+    });
+
+    if (!ability.can("update", "User" as any)) {
+      throw new HTTPException(403, { message: "Forbidden" });
+    }
+
     let updatedUser;
     try {
-      await User.findByIdAndUpdate(id, payload, {
+      updatedUser = await User.findByIdAndUpdate(id, payload, {
         fields: {
           id: 1,
           name: 1,
           email: 1,
+          role: 1,
           createdAt: 1,
         },
         new: true,
@@ -78,6 +94,7 @@ users.put(
 
 users.delete(
   "/:id",
+  authorize("manage", "User"),
   zValidator("param", z.object({ id: z.string() })),
   async (c) => {
     const { id } = c.req.valid("param");
@@ -103,7 +120,7 @@ users.get("/me", async (c) => {
   const { id } = c.get("jwtPayload");
   let user;
   try {
-    user = await User.findById(id, { email: 1, name: 1 });
+    user = await User.findById(id, { email: 1, name: 1, role: 1 });
   } catch (error) {
     console.log(error);
   }

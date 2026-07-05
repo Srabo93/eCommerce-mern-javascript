@@ -1,12 +1,11 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
-import type { JwtVariables } from "hono/jwt";
 import { zValidator } from "@hono/zod-validator";
 import z from "zod";
 import { Order } from "../models/Order.js";
 import { HTTPException } from "hono/http-exception";
-
-type Variables = JwtVariables<{ id: string; isAdmin: boolean; exp: number }>;
+import { authorize } from "../middleware/auth.js";
+import type { Variables } from "../types.js";
 
 const orderItemSchema = z.object({
   name: z.string(),
@@ -67,7 +66,7 @@ orders.get("/myorders", async (c) => {
   return c.json(myOrders);
 });
 
-orders.get("/", async (c) => {
+orders.get("/", authorize("manage", "Order"), async (c) => {
   let allOrders;
   try {
     allOrders = await Order.find().populate("user", "id name");
@@ -82,6 +81,7 @@ orders.get(
   zValidator("param", z.object({ id: z.string() })),
   async (c) => {
     const { id } = c.req.valid("param");
+    const jwtPayload = c.get("jwtPayload");
     let order;
     try {
       order = await Order.findById(id).populate("user", "name email");
@@ -91,12 +91,21 @@ orders.get(
     if (!order) {
       throw new HTTPException(404, { message: "Order not found" });
     }
+
+    if (
+      jwtPayload.role !== "admin" &&
+      order.user._id.toString() !== jwtPayload.id
+    ) {
+      throw new HTTPException(403, { message: "Forbidden" });
+    }
+
     return c.json(order);
   },
 );
 
 orders.put(
   "/:id/pay",
+  authorize("manage", "Order"),
   zValidator("param", z.object({ id: z.string() })),
   zValidator("json", paySchema),
   async (c) => {
@@ -135,6 +144,7 @@ orders.put(
 
 orders.put(
   "/:id/deliver",
+  authorize("manage", "Order"),
   zValidator("param", z.object({ id: z.string() })),
   async (c) => {
     const { id } = c.req.valid("param");

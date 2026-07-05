@@ -17,6 +17,8 @@ services:
       - "3000:3000"
     volumes:
       - ./packages/api/src:/app/packages/api/src:Z
+      - ./packages/ability/src:/app/packages/ability/src:Z
+      - ./packages/ability/dist:/app/packages/ability/dist:Z
     depends_on:
       - mongodb
       - minio

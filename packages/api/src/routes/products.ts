@@ -3,9 +3,8 @@ import { Product } from "../models/Product.js";
 import { zValidator } from "@hono/zod-validator";
 import z from "zod";
 import { jwt } from "hono/jwt";
-import type { JwtVariables } from "hono/jwt";
-
-type Variables = JwtVariables<{ id: string; isAdmin: boolean; exp: number }>;
+import { authorize } from "../middleware/auth.js";
+import type { Variables } from "../types.js";
 
 const createSchema = z.object({
   name: z.string(),
@@ -26,9 +25,8 @@ const updateSchema = z.object({
   category: z.string(),
   countInStock: z.number(),
 });
-export const products = new Hono<{ Variables: Variables }>();
 
-products.use("/*", jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" }));
+export const products = new Hono<{ Variables: Variables }>();
 
 products.get("/", async (c) => {
   let products;
@@ -39,24 +37,6 @@ products.get("/", async (c) => {
   }
 
   return c.json(products);
-});
-
-products.post("/", zValidator("json", createSchema), async (c) => {
-  const payload = c.req.valid("json");
-  const { id } = c.get("jwtPayload");
-
-  let product;
-  try {
-    product = await Product.create({
-      ...payload,
-      user: id,
-      price: Number(payload.price),
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
-  return c.json(product, 201);
 });
 
 products.get(
@@ -74,8 +54,29 @@ products.get(
   },
 );
 
+products.use("/*", jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" }));
+
+products.post("/", authorize("create", "Product"), zValidator("json", createSchema), async (c) => {
+  const payload = c.req.valid("json");
+  const { id } = c.get("jwtPayload");
+
+  let product;
+  try {
+    product = await Product.create({
+      ...payload,
+      user: id,
+      price: Number(payload.price),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return c.json(product, 201);
+});
+
 products.put(
   "/:id",
+  authorize("update", "Product"),
   zValidator("param", z.object({ id: z.string() })),
   zValidator("json", updateSchema),
   async (c) => {
@@ -98,6 +99,7 @@ products.put(
 
 products.delete(
   "/:id",
+  authorize("delete", "Product"),
   zValidator("param", z.object({ id: z.string() })),
   async (c) => {
     const { id } = c.req.valid("param");

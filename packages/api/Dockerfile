@@ -6,8 +6,9 @@ WORKDIR /app
 
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/api/package.json ./packages/api/package.json
+COPY packages/ability/package.json ./packages/ability/package.json
 
-RUN pnpm install --frozen-lockfile --filter @proshop/api
+RUN pnpm install --frozen-lockfile --filter @proshop/api...
 
 WORKDIR /app/packages/api
 
