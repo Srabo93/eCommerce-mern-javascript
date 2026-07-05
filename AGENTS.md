@@ -184,3 +184,4 @@ When working on a specific technology, first load the corresponding reference fo
 - `references/hono.md` — Hono framework reference with links to official LLM docs, current usage, key conventions, and available middleware/helpers
 - `references/mongoose.md` — Mongoose ODM reference with TypeScript patterns, schema conventions, and Mongoose 9 best practices
 - `references/pnpm.md` — pnpm CLI commands, workspace/filtering reference, Docker and Podman patterns, monorepo best practices
+- `references/casl.md` — CASL v7 authorization reference with ability definitions, Hono middleware patterns, Mongoose integration, and TypeScript conventions
