@@ -10,7 +10,7 @@ export const authorize = (
     const payload = c.get("jwtPayload") as JwtPayloadCASL;
     const ability = defineAbilitiesFor({
       id: payload.id,
-      role: payload.role as "admin" | "user",
+      role: payload.role,
     });
 
     if (!ability.can(action, subject)) {

@@ -56,23 +56,28 @@ products.get(
 
 products.use("/*", jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" }));
 
-products.post("/", authorize("create", "Product"), zValidator("json", createSchema), async (c) => {
-  const payload = c.req.valid("json");
-  const { id } = c.get("jwtPayload");
+products.post(
+  "/",
+  authorize("create", "Product"),
+  zValidator("json", createSchema),
+  async (c) => {
+    const payload = c.req.valid("json");
+    const { id } = c.get("jwtPayload");
 
-  let product;
-  try {
-    product = await Product.create({
-      ...payload,
-      user: id,
-      price: Number(payload.price),
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    let product;
+    try {
+      product = await Product.create({
+        ...payload,
+        user: id,
+        price: Number(payload.price),
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
-  return c.json(product, 201);
-});
+    return c.json(product, 201);
+  },
+);
 
 products.put(
   "/:id",
