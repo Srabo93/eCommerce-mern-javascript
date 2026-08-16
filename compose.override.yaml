@@ -4,17 +4,16 @@ services:
       context: .
       dockerfile: packages/api/Dockerfile
     restart: unless-stopped
+    network_mode: host
     environment:
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/app
+      MONGODB_URI: mongodb://localhost:27017/app
       JWT_SECRET: ${JWT_SECRET:-keyboardcat}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-keyboarddog}
-      S3_ENDPOINT: http://minio:9000
+      S3_ENDPOINT: http://localhost:9000
       S3_ACCESS_KEY: admin
       S3_SECRET_KEY: change-me-please
       S3_BUCKET: uploads
-    ports:
-      - "3000:3000"
     volumes:
       - ./packages/api/src:/app/packages/api/src:Z
       - ./packages/ability/src:/app/packages/ability/src:Z
@@ -23,3 +22,13 @@ services:
       - mongodb
       - minio
       - mailpit
+  ui:
+    build:
+      context: .
+      dockerfile: packages/ui/Dockerfile
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./packages/ui:/app/packages/ui:Z
+    depends_on:
+      - server

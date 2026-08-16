@@ -30,10 +30,10 @@ pnpm --filter legacy-backend dev         # concurrently runs server + CRA client
 pnpm --filter legacy-backend data:import  # node backend/seeder
 pnpm --filter legacy-backend data:delete  # node backend/seeder -d
 
-# Docker (full stack including Mongo 8, MinIO, Mailpit)
-docker compose up -d          # start all services
-docker compose up server      # start just the Hono API with deps
-docker compose down           # stop everything
+# Podman Compose (full stack including Mongo 8, MinIO, Mailpit)
+podman-compose up -d          # start all services
+podman-compose up -d server   # start just the Hono API with deps
+podman-compose down           # stop everything
 ```
 
 **Key notes:**
@@ -47,7 +47,7 @@ docker compose down           # stop everything
 
 ```
 /
-├── compose.yaml              # Docker compose: Mongo 8, MinIO, Mailpit, Hono API
+├── compose.yaml              # Podman compose: Mongo 8, MinIO, Mailpit, Hono API
 ├── packages/                 # New monorepo (pnpm workspace)
 │   ├── api/                  # Hono + TypeScript backend
 │   │   ├── src/index.ts      # Server entry point
@@ -164,10 +164,11 @@ describe("Component", () => {
 
 ### Docker / Infra
 
-- **Dev environment**: `docker compose up` runs Mongo 8, MinIO, Mailpit, and the Hono API.
+- **Dev environment**: `podman-compose up` runs Mongo 8, MinIO, Mailpit, and the Hono API.
+- **Networking**: all services use `network_mode: host` (netavark bridge not available in this environment).
 - **Env vars expected by compose.yaml**: `MONGODB_URI`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`.
 - **Legacy env vars**: `MONGO_URI`, `JWT_SECRET`, `PORT`, `NODE_ENV`, `REACT_APP_PAYPAL_CLIENT_ID`.
-- **Dockerfile**: multi-stage is not used; `pnpm install --frozen-lockfile --filter @proshop/api`.
+- **Dockerfile**: multi-stage is not used; builds `@proshop/ability` then installs `@proshop/api` deps.
 
 ### What NOT to Do
 

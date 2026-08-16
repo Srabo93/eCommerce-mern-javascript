@@ -9,7 +9,7 @@ COPY packages/api/package.json ./packages/api/package.json
 COPY packages/ability/package.json ./packages/ability/package.json
 
 RUN pnpm install --frozen-lockfile --filter @proshop/api...
-RUN pnpm --filter @proshop/ability build
+# RUN pnpm --filter @proshop/ability build
 
 WORKDIR /app/packages/api
 

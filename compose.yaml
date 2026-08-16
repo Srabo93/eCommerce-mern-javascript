@@ -2,27 +2,22 @@ services:
   mongodb:
     image: docker.io/library/mongo:8
     restart: unless-stopped
-    ports:
-      - "27017:27017"
+    network_mode: host
     volumes:
       - ./data/mongodb:/data/db:Z
 
   minio:
     image: docker.io/minio/minio:latest
     restart: unless-stopped
+    network_mode: host
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: change-me-please
-    ports:
-      - "9000:9000"
-      - "9001:9001"
     volumes:
       - ./data/minio:/data:Z
 
   mailpit:
     image: axllent/mailpit
     restart: unless-stopped
-    ports:
-      - "1025:1025"
-      - "8025:8025"
+    network_mode: host
